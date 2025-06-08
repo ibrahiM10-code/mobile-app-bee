@@ -11,7 +11,10 @@ const TopBar = () => {
             marginRight: 25,
           }}
         >
-          <Image source={require("../assets/icons/colmena.png")} />
+          <Image
+            source={require("../assets/icons/colmena.png")}
+            style={{ width: 50, height: 50, resizeMode: "contain" }}
+          />
           <Text style={{ fontSize: 24, color: "white" }}>Monitor Beehive</Text>
         </View>
         <Image

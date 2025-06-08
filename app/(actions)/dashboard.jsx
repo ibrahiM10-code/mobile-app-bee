@@ -29,7 +29,7 @@ const Dashboard = () => {
             flexWrap: "wrap",
             justifyContent: "space-evenly",
             paddingHorizontal: 16,
-            marginTop: -175,
+            marginTop: -200,
             zIndex: 1,
           }}
         >
@@ -63,7 +63,14 @@ const Dashboard = () => {
             icono={require("../../assets/icons/sonido.png")}
           />
         </View>
-        <Text style={{ fontSize: 24, marginBottom: 16, paddingHorizontal: 40 }}>
+        <Text
+          style={{
+            fontSize: 24,
+            marginBottom: 16,
+            paddingHorizontal: 20,
+            paddingTop: 30,
+          }}
+        >
           Sobre esta colmena...
         </Text>
         <View style={styles.sobreColmena}>
@@ -80,10 +87,18 @@ const Dashboard = () => {
               temperatura es óptima, al igual que la humedad y el sonido interno
               asegura la presencia de su abeja reina.
             </Text>
-            <TouchableOpacity>
-              <Text style={{ backgroundColor: "green", color: "white" }}>
-                Descargar reporte
-              </Text>
+            <TouchableOpacity
+              style={{
+                backgroundColor: "green",
+                top: 10,
+                maxWidth: "100%",
+                alignSelf: "flex-start",
+                paddingVertical: 7,
+                paddingHorizontal: 10,
+                borderRadius: 5,
+              }}
+            >
+              <Text style={{ color: "white" }}>Descargar reporte</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -95,7 +110,8 @@ const Dashboard = () => {
 
 const styles = StyleSheet.create({
   sobreColmena: {
-    paddingHorizontal: 40,
+    paddingHorizontal: 20,
+    paddingBottom: 30,
     flexDirection: "row",
     alignItems: "center",
     gap: 32,

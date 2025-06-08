@@ -1,7 +1,6 @@
 import { FlatList, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Alerta from "../../components/Alerta";
-import Navbar from "../../components/Navbar";
 import TopBar from "../../components/TopBar";
 
 const SeccionAlertas = () => {
@@ -33,17 +32,33 @@ const SeccionAlertas = () => {
   ];
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <TopBar />
-      <Text>Ultimas alertas</Text>
-      <View>
+      <Text style={{ fontSize: 28, marginTop: 30, marginHorizontal: 20 }}>
+        Ultimas alertas
+      </Text>
+      <View style={{}}>
         <FlatList
           data={mockData}
-          renderItem={({ item }) => <Alerta />}
-          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <Alerta
+              fechaAlerta={item.fechaAlerta}
+              tituloAlerta={item.tituloAlerta}
+              descAlerta={item.descAlerta}
+              imgAlerta={item.imgAlerta}
+              idColmena={item.idColmena}
+              key={item.idColmena}
+            />
+          )}
+          keyExtractor={(item) => item.idColmena}
+          contentContainerStyle={{
+            paddingHorizontal: 16,
+            paddingTop: 20,
+            paddingBottom: 80,
+          }}
         />
       </View>
-      <Navbar />
+      {/* <Navbar /> */}
     </SafeAreaView>
   );
 };

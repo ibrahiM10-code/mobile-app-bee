@@ -9,10 +9,10 @@ const Inicio = () => {
         <TouchableOpacity onPress={() => router.push("/dashboard")}>
           <Text style={{ color: "black" }}>Ver dashboard</Text>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push("/alertas")}>
           <Text>Ver alertas</Text>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push("/colmenas")}>
           <Text>Ver colmenas</Text>
         </TouchableOpacity>
       </View>
