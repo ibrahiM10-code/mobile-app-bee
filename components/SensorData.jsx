@@ -1,7 +1,6 @@
-import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
+import { Link } from "expo-router";
+import { Image, StyleSheet, Text, View } from "react-native";
 
-const screenWidth = Dimensions.get("window").width;
-const cardSize = (screenWidth - 60) / 2;
 const SensorData = ({ nombreSensor, datoSensor, estado, icono, metrica }) => {
   return (
     <View style={styles.container}>
@@ -25,7 +24,8 @@ const SensorData = ({ nombreSensor, datoSensor, estado, icono, metrica }) => {
       </View>
 
       <View style={styles.middleSection}>
-        <Text
+        <Link
+          href={`/sensor/${nombreSensor}`}
           style={
             nombreSensor === "Temperatura" || nombreSensor === "Humedad"
               ? {
@@ -40,7 +40,7 @@ const SensorData = ({ nombreSensor, datoSensor, estado, icono, metrica }) => {
         >
           {datoSensor}
           {metrica}
-        </Text>
+        </Link>
       </View>
 
       <View style={styles.bottomSection}>
