@@ -50,9 +50,17 @@ const Colmenas = () => {
     },
   ];
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ backgroundColor: "#E1D9C1", flex: 1 }}>
       <TopBar />
-      <Text style={{ fontSize: 28, marginTop: 30, marginHorizontal: 20 }}>
+      <Text
+        style={{
+          fontFamily: "Manrope-Bold",
+          fontSize: 28,
+          marginTop: 30,
+          marginHorizontal: 20,
+          color: "#222A2A",
+        }}
+      >
         Mis colmenas
       </Text>
       <View>

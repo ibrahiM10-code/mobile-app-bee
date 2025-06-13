@@ -30,8 +30,8 @@ const SensorData = ({ nombreSensor, datoSensor, estado, icono, metrica }) => {
             nombreSensor === "Temperatura" || nombreSensor === "Humedad"
               ? {
                   fontSize: 48,
-                  fontWeight: "bold",
-                  color: "black",
+                  fontFamily: "Manrope-Bold",
+                  color: "#222A2A",
                   left: 7,
                   bottom: 7,
                 }
@@ -54,11 +54,13 @@ const styles = StyleSheet.create({
   container: {
     width: 145,
     height: 145,
-    backgroundColor: "grey",
+    backgroundColor: "#F39005",
     borderRadius: 12,
     marginBottom: 16,
     padding: 8,
     justifyContent: "space-between",
+    borderColor: "#222A2A",
+    borderWidth: 1,
   },
   topSection: {
     flexDirection: "row",
@@ -74,8 +76,9 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   title: {
+    fontFamily: "Manrope-Bold",
     fontSize: 12,
-    color: "black",
+    color: "#222A2A",
     // left: 10,
   },
   middleSection: {
@@ -84,17 +87,18 @@ const styles = StyleSheet.create({
     flex: 1, // ocupa todo el espacio disponible
   },
   value: {
+    fontFamily: "Manrope-Bold",
     fontSize: 40,
-    fontWeight: "bold",
-    color: "black",
+    color: "#222A2A",
     bottom: 7,
   },
   bottomSection: {
     alignItems: "center",
   },
   status: {
+    fontFamily: "Manrope-Bold",
     fontSize: 10,
-    color: "#ccc",
+    color: "#222A2A",
     bottom: 14,
   },
 });

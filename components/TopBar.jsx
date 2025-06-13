@@ -15,7 +15,15 @@ const TopBar = () => {
             source={require("../assets/icons/colmena.png")}
             style={{ width: 50, height: 50, resizeMode: "contain" }}
           />
-          <Text style={{ fontSize: 24, color: "white" }}>Monitor Beehive</Text>
+          <Text
+            style={{
+              fontFamily: "Manrope-Bold",
+              fontSize: 24,
+              color: "#E1D9C1",
+            }}
+          >
+            Monitor Beehive
+          </Text>
         </View>
         <Image
           source={require("../assets/icons/usuario.png")}
@@ -33,7 +41,7 @@ const TopBar = () => {
 
 const styles = StyleSheet.create({
   topContainer: {
-    backgroundColor: "gray",
+    backgroundColor: "#222A2A",
     paddingVertical: 8,
     position: "relative",
   },

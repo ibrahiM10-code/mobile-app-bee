@@ -9,19 +9,45 @@ const Alerta = ({
 }) => {
   return (
     <View>
-      <Text style={{ fontSize: 18, marginVertical: 10 }}>{fechaAlerta}</Text>
+      <Text
+        style={{
+          fontFamily: "Manrope-Bold",
+          fontSize: 18,
+          marginVertical: 10,
+          color: "#222A2A",
+        }}
+      >
+        {fechaAlerta}
+      </Text>
       <View style={styles.alertaContainer}>
         <Image source={imgAlerta} style={styles.icon} />
         <View style={{ flex: 1 }}>
-          <Text style={{ fontSize: 14 }}>{tituloAlerta}</Text>
-          <Text style={{ fontSize: 12 }}>{descAlerta}</Text>
+          <Text
+            style={{
+              fontFamily: "Manrope-Bold",
+              color: "#E1D9C1",
+              fontSize: 14,
+            }}
+          >
+            {tituloAlerta}
+          </Text>
+          <Text
+            style={{
+              fontFamily: "Manrope-Regular",
+              color: "#E1D9C1",
+              fontSize: 12,
+            }}
+          >
+            {descAlerta}
+          </Text>
         </View>
         <TouchableOpacity style={{ alignSelf: "center" }}>
           <Text
             style={{
+              fontFamily: "Manrope-Bold",
               fontSize: 14,
               textAlign: "center",
-              color: "black",
+              color: "#E1D9C1",
             }}
           >
             Ver{"\n"}colmena
@@ -34,13 +60,15 @@ const Alerta = ({
 
 const styles = StyleSheet.create({
   alertaContainer: {
-    backgroundColor: "gray",
+    backgroundColor: "#6D7A79",
     flexDirection: "row",
     borderRadius: 5,
     alignItems: "flex-start",
     gap: 15,
     padding: 10,
     marginBottom: 20,
+    borderWidth: 1,
+    borderColor: "#222A2A",
   },
   icon: {
     width: 38,

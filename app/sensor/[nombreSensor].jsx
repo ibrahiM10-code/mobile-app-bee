@@ -7,24 +7,48 @@ const DetallesSensor = () => {
   const { nombreSensor } = useLocalSearchParams();
   console.log(nombreSensor);
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ backgroundColor: "#E1D9C1", flex: 1 }}>
       <TopBar />
       <View style={styles.tituloWrapper}>
-        <Text style={{ fontSize: 28 }}>{nombreSensor}</Text>
+        <Text
+          style={{ fontFamily: "Manrope-Bold", fontSize: 28, color: "#222A2A" }}
+        >
+          {nombreSensor}
+        </Text>
         {/* <Image style={{ width: 24, height: 24, resizeMode: "contain" }} /> */}
       </View>
       <View style={styles.infoContainer}>
         <View style={styles.datoWrap}>
-          <Text style={{ fontSize: 80, textAlign: "center" }}>31°</Text>
+          <Text
+            style={{
+              fontFamily: "Manrope-Bold",
+              fontSize: 80,
+              textAlign: "center",
+              color: "#222A2A",
+              left: 8,
+              bottom: 4,
+            }}
+          >
+            31°
+          </Text>
         </View>
         <View style={styles.estadoDesc}>
-          <Text style={{ fontSize: 16, textAlign: "center" }}>
+          <Text
+            style={{
+              fontFamily: "Manrope-Regular",
+              fontSize: 16,
+              textAlign: "center",
+              color: "#222A2A",
+            }}
+          >
             La colmena está con una temperatura óptima e ideal para las abejas.
           </Text>
         </View>
       </View>
       <Text
         style={{
+          fontFamily: "Manrope-Bold",
+          color: "#222A2A",
           fontSize: 15,
           marginTop: 35,
           marginBottom: 27,
@@ -35,12 +59,44 @@ const DetallesSensor = () => {
       </Text>
       <View style={styles.tablaRegistros}>
         <View style={styles.enunciados}>
-          <Text style={{ fontSize: 10 }}>Fecha y hora</Text>
-          <Text style={{ fontSize: 10 }}>Grados</Text>
+          <Text
+            style={{
+              fontFamily: "Manrope-Bold",
+              color: "#222A2A",
+              fontSize: 10,
+            }}
+          >
+            Fecha y hora
+          </Text>
+          <Text
+            style={{
+              fontFamily: "Manrope-Bold",
+              color: "#222A2A",
+              fontSize: 10,
+            }}
+          >
+            Grados
+          </Text>
         </View>
         <View style={styles.registros}>
-          <Text style={{ fontSize: 13 }}>21-09-2025 13:50</Text>
-          <Text style={{ fontSize: 13 }}>33°</Text>
+          <Text
+            style={{
+              fontFamily: "Manrope-SemiBold",
+              color: "#222A2A",
+              fontSize: 13,
+            }}
+          >
+            21-09-2025 13:50
+          </Text>
+          <Text
+            style={{
+              fontFamily: "Manrope-SemiBold",
+              color: "#222A2A",
+              fontSize: 13,
+            }}
+          >
+            33°
+          </Text>
         </View>
         {/* <View
           style={{
@@ -50,16 +106,64 @@ const DetallesSensor = () => {
           }}
         ></View> */}
         <View style={styles.registros}>
-          <Text style={{ fontSize: 13 }}>21-09-2025 12:24</Text>
-          <Text style={{ fontSize: 13 }}>32°</Text>
+          <Text
+            style={{
+              fontFamily: "Manrope-SemiBold",
+              color: "#222A2A",
+              fontSize: 13,
+            }}
+          >
+            21-09-2025 12:24
+          </Text>
+          <Text
+            style={{
+              fontFamily: "Manrope-SemiBold",
+              color: "#222A2A",
+              fontSize: 13,
+            }}
+          >
+            32°
+          </Text>
         </View>
         <View style={styles.registros}>
-          <Text style={{ fontSize: 13 }}>21-09-2025 11:31</Text>
-          <Text style={{ fontSize: 13 }}>31°</Text>
+          <Text
+            style={{
+              fontFamily: "Manrope-SemiBold",
+              color: "#222A2A",
+              fontSize: 13,
+            }}
+          >
+            21-09-2025 11:31
+          </Text>
+          <Text
+            style={{
+              fontFamily: "Manrope-SemiBold",
+              color: "#222A2A",
+              fontSize: 13,
+            }}
+          >
+            31°
+          </Text>
         </View>
         <View style={styles.registros}>
-          <Text style={{ fontSize: 13 }}>21-09-2025 09:57</Text>
-          <Text style={{ fontSize: 13 }}>30°</Text>
+          <Text
+            style={{
+              fontFamily: "Manrope-SemiBold",
+              color: "#222A2A",
+              fontSize: 13,
+            }}
+          >
+            21-09-2025 09:57
+          </Text>
+          <Text
+            style={{
+              fontFamily: "Manrope-SemiBold",
+              color: "#222A2A",
+              fontSize: 13,
+            }}
+          >
+            30°
+          </Text>
         </View>
       </View>
     </SafeAreaView>
@@ -80,7 +184,7 @@ const styles = StyleSheet.create({
     height: 200,
     width: 200,
     borderStyle: "solid",
-    borderColor: "black",
+    borderColor: "#F39005",
     borderRadius: "50%",
     borderWidth: 1,
     justifyContent: "center",
@@ -93,14 +197,15 @@ const styles = StyleSheet.create({
     // marginBottom: 45,
   },
   tablaRegistros: {
-    backgroundColor: "gray",
+    backgroundColor: "#F39005",
     paddingVertical: 10,
-    borderStyle: "solid",
-    borderWidth: 1,
-    borderColor: "black",
+    // borderStyle: "solid",
+    // borderWidth: 1,
+    // borderColor: "black",
     borderRadius: 5,
     alignSelf: "center",
     width: "80%",
+    marginBottom: 10,
   },
   enunciados: {
     flexDirection: "row",

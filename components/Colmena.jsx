@@ -14,10 +14,24 @@ const Colmena = ({
     <View style={styles.colmenaContainer}>
       <Image source={imgColmena} style={styles.imagenColmena} />
       <View style={{ flex: 1 }}>
-        <Text style={{ fontSize: 10, alignSelf: "flex-end" }}>
+        <Text
+          style={{
+            fontFamily: "Manrope-Bold",
+            fontSize: 10,
+            alignSelf: "flex-end",
+          }}
+        >
           Estado: {estado}.
         </Text>
-        <Text style={{ fontSize: 14, alignSelf: "flex-start", bottom: 10 }}>
+        <Text
+          style={{
+            fontFamily: "Manrope-Bold",
+            fontSize: 14,
+            alignSelf: "flex-start",
+            bottom: 10,
+            color: "#222A2A",
+          }}
+        >
           {nombreColmena}
         </Text>
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
@@ -30,14 +44,30 @@ const Colmena = ({
                 resizeMode: "contain",
               }}
             />
-            <Text style={{ fontSize: 13, left: 5 }}>{tempColmena}°</Text>
+            <Text
+              style={{
+                fontFamily: "Manrope-Regular",
+                fontSize: 13,
+                left: 5,
+                color: "#222A2A",
+              }}
+            >
+              {tempColmena}°
+            </Text>
           </View>
           <View>
             <Image
               source={require("../assets/icons/humedad.png")}
               style={styles.icon}
             />
-            <Text style={{ fontSize: 13, alignSelf: "center" }}>
+            <Text
+              style={{
+                fontFamily: "Manrope-Regular",
+                fontSize: 13,
+                alignSelf: "center",
+                color: "#222A2A",
+              }}
+            >
               {humColmena}%
             </Text>
           </View>
@@ -46,7 +76,14 @@ const Colmena = ({
               source={require("../assets/icons/balanza.png")}
               style={styles.icon}
             />
-            <Text style={{ fontSize: 13, alignSelf: "center" }}>
+            <Text
+              style={{
+                fontFamily: "Manrope-Regular",
+                fontSize: 13,
+                alignSelf: "center",
+                color: "#222A2A",
+              }}
+            >
               {pesoColmena}kg
             </Text>
           </View>
@@ -55,7 +92,14 @@ const Colmena = ({
               source={require("../assets/icons/sonido.png")}
               style={styles.icon}
             />
-            <Text style={{ fontSize: 13, alignSelf: "center" }}>
+            <Text
+              style={{
+                fontFamily: "Manrope-Regular",
+                fontSize: 13,
+                alignSelf: "center",
+                color: "#222A2A",
+              }}
+            >
               {sonidoColmena}Hz
             </Text>
           </View>
@@ -67,13 +111,15 @@ const Colmena = ({
 
 const styles = StyleSheet.create({
   colmenaContainer: {
-    backgroundColor: "gray",
+    backgroundColor: "#F39005",
     flexDirection: "row",
     borderRadius: 5,
     alignItems: "flex-start",
     gap: 15,
     padding: 10,
     marginBottom: 20,
+    borderColor: "#222A2A",
+    borderWidth: 1,
   },
   imagenColmena: {
     width: 70,

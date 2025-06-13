@@ -12,7 +12,7 @@ import TopBar from "../../components/TopBar";
 
 const Dashboard = () => {
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#E1D9C1" }}>
       <TopBar />
       <ScrollView
         contentContainerStyle={{ paddingBottom: 80 }}
@@ -36,14 +36,14 @@ const Dashboard = () => {
           <SensorData
             nombreSensor={"Temperatura"}
             datoSensor={31}
-            estado={"Optima"}
+            estado={"Óptima"}
             metrica={"°"}
             icono={require("../../assets/icons/temperatura.png")}
           />
           <SensorData
             nombreSensor={"Humedad"}
             datoSensor={30}
-            estado={"Optima"}
+            estado={"Óptima"}
             metrica={"%"}
             icono={require("../../assets/icons/humedad.png")}
           />
@@ -51,7 +51,7 @@ const Dashboard = () => {
           <SensorData
             nombreSensor={"Peso"}
             datoSensor={45}
-            estado={"Optimo"}
+            estado={"Óptimo"}
             metrica={"kg"}
             icono={require("../../assets/icons/balanza.png")}
           />
@@ -69,6 +69,7 @@ const Dashboard = () => {
             marginBottom: 16,
             paddingHorizontal: 20,
             paddingTop: 30,
+            fontFamily: "Manrope-SemiBold",
           }}
         >
           Sobre esta colmena...
@@ -81,7 +82,13 @@ const Dashboard = () => {
             />
           </View>
           <View style={styles.reporteColmena}>
-            <Text style={{ fontSize: 10, width: "16%" }}>
+            <Text
+              style={{
+                fontFamily: "Manrope-Regular",
+                fontSize: 10,
+                width: "16%",
+              }}
+            >
               La colmena presenta datos óptimos en todas las áreas sensorizadas,
               su peso indica la posibilidad de extracción de miel, su
               temperatura es óptima, al igual que la humedad y el sonido interno
@@ -89,7 +96,7 @@ const Dashboard = () => {
             </Text>
             <TouchableOpacity
               style={{
-                backgroundColor: "green",
+                backgroundColor: "#222A2A",
                 top: 10,
                 maxWidth: "100%",
                 alignSelf: "flex-start",
@@ -98,7 +105,9 @@ const Dashboard = () => {
                 borderRadius: 5,
               }}
             >
-              <Text style={{ color: "white" }}>Descargar reporte</Text>
+              <Text style={{ fontFamily: "Manrope-Bold", color: "#E1D9C1" }}>
+                Descargar reporte
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
