@@ -45,9 +45,15 @@ const SeccionAlertas = () => {
       >
         Últimas alertas
       </Text>
-      <View style={{}}>
+      <View style={{ height: "100%" }}>
         <FlatList
           data={mockData}
+          style={
+            {
+              // borderColor: "black",
+              // borderWidth: 1,
+            }
+          }
           renderItem={({ item }) => (
             <Alerta
               fechaAlerta={item.fechaAlerta}
@@ -61,8 +67,7 @@ const SeccionAlertas = () => {
           keyExtractor={(item) => item.idColmena}
           contentContainerStyle={{
             paddingHorizontal: 16,
-            paddingTop: 20,
-            paddingBottom: 80,
+            bottom: 20,
           }}
         />
       </View>

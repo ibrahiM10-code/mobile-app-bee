@@ -1,4 +1,10 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Colmena from "../../components/Colmena";
 import TopBar from "../../components/TopBar";
@@ -63,8 +69,14 @@ const Colmenas = () => {
       >
         Mis colmenas
       </Text>
-      <View>
+      <View style={{ width: "100%", height: "70%" }}>
         <FlatList
+          style={
+            {
+              // borderWidth: 1,
+              // borderColor: "#222A2A",
+            }
+          }
           data={mockData}
           renderItem={({ item }) => (
             <Colmena
@@ -80,11 +92,46 @@ const Colmenas = () => {
           keyExtractor={(item) => item.idColmena}
           contentContainerStyle={{
             paddingHorizontal: 16,
-            paddingTop: 20,
-            paddingBottom: 80,
           }}
+          overScrollMode="never"
+          showsVerticalScrollIndicator={false}
+          ListFooterComponent={
+            <TouchableOpacity
+              style={{
+                backgroundColor: "#222A2A",
+                paddingHorizontal: 10,
+                paddingVertical: 10,
+                borderRadius: 5,
+                marginVertical: 40,
+              }}
+            >
+              <Text
+                style={{
+                  color: "#E1D9C1",
+                  textAlign: "center",
+                  fontFamily: "Manrope-Bold",
+                }}
+              >
+                Agregar Colmena
+              </Text>
+            </TouchableOpacity>
+          }
         />
       </View>
+      {/* <View style={{ paddingHorizontal: 100, paddingBottom: 20, bottom: 50 }}>
+        <TouchableOpacity
+          style={{
+            backgroundColor: "#222A2A",
+            paddingHorizontal: 10,
+            paddingVertical: 10,
+            borderRadius: 5,
+          }}
+        >
+          <Text style={{ color: "#E1D9C1", textAlign: "center" }}>
+            Agregar Colmena
+          </Text>
+        </TouchableOpacity>
+      </View> */}
       {/* <Navbar /> */}
     </SafeAreaView>
   );

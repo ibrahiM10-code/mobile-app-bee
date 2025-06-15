@@ -15,6 +15,12 @@ const Inicio = () => {
         <TouchableOpacity onPress={() => router.push("/colmenas")}>
           <Text>Ver colmenas</Text>
         </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push("/registro")}>
+          <Text>Ver registro</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push("/login")}>
+          <Text>Ver login</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

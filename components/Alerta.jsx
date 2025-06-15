@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-
+import { SafeAreaView } from "react-native-safe-area-context";
 const Alerta = ({
   fechaAlerta,
   tituloAlerta,
@@ -8,53 +8,55 @@ const Alerta = ({
   imgAlerta,
 }) => {
   return (
-    <View>
-      <Text
-        style={{
-          fontFamily: "Manrope-Bold",
-          fontSize: 18,
-          marginVertical: 10,
-          color: "#222A2A",
-        }}
-      >
-        {fechaAlerta}
-      </Text>
-      <View style={styles.alertaContainer}>
-        <Image source={imgAlerta} style={styles.icon} />
-        <View style={{ flex: 1 }}>
-          <Text
-            style={{
-              fontFamily: "Manrope-Bold",
-              color: "#E1D9C1",
-              fontSize: 14,
-            }}
-          >
-            {tituloAlerta}
-          </Text>
-          <Text
-            style={{
-              fontFamily: "Manrope-Regular",
-              color: "#E1D9C1",
-              fontSize: 12,
-            }}
-          >
-            {descAlerta}
-          </Text>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View>
+        <Text
+          style={{
+            fontFamily: "Manrope-Bold",
+            fontSize: 18,
+            marginVertical: 10,
+            color: "#222A2A",
+          }}
+        >
+          {fechaAlerta}
+        </Text>
+        <View style={styles.alertaContainer}>
+          <Image source={imgAlerta} style={styles.icon} />
+          <View style={{ flex: 1 }}>
+            <Text
+              style={{
+                fontFamily: "Manrope-Bold",
+                color: "#E1D9C1",
+                fontSize: 14,
+              }}
+            >
+              {tituloAlerta}
+            </Text>
+            <Text
+              style={{
+                fontFamily: "Manrope-Regular",
+                color: "#E1D9C1",
+                fontSize: 12,
+              }}
+            >
+              {descAlerta}
+            </Text>
+          </View>
+          <TouchableOpacity style={{ alignSelf: "center" }}>
+            <Text
+              style={{
+                fontFamily: "Manrope-Bold",
+                fontSize: 14,
+                textAlign: "center",
+                color: "#E1D9C1",
+              }}
+            >
+              Ver{"\n"}colmena
+            </Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity style={{ alignSelf: "center" }}>
-          <Text
-            style={{
-              fontFamily: "Manrope-Bold",
-              fontSize: 14,
-              textAlign: "center",
-              color: "#E1D9C1",
-            }}
-          >
-            Ver{"\n"}colmena
-          </Text>
-        </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -66,7 +68,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     gap: 15,
     padding: 10,
-    marginBottom: 20,
+    marginBottom: -50,
     borderWidth: 1,
     borderColor: "#222A2A",
   },
