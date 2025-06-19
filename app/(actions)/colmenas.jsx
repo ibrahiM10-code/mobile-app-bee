@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import {
   FlatList,
   StyleSheet,
@@ -103,6 +104,9 @@ const Colmenas = () => {
                 paddingVertical: 10,
                 borderRadius: 5,
                 marginVertical: 40,
+              }}
+              onPress={() => {
+                router.push("/agregar-colmena");
               }}
             >
               <Text

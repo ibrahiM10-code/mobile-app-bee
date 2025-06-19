@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     gap: 15,
     padding: 10,
-    marginBottom: -40,
+    marginBottom: -15,
     borderColor: "#222A2A",
     borderWidth: 1,
   },

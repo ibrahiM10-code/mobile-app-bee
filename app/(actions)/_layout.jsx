@@ -8,6 +8,7 @@ const AccionesLayout = () => {
       <Stack.Screen name="colmenas" options={{ headerShown: false }} />
       <Stack.Screen name="registro" options={{ headerShown: false }} />
       <Stack.Screen name="login" options={{ headerShown: false }} />
+      <Stack.Screen name="agregar-colmena" options={{ headerShown: false }} />
     </Stack>
   );
 };

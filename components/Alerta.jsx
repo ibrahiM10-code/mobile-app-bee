@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     gap: 15,
     padding: 10,
-    marginBottom: -50,
+    marginBottom: -20,
     borderWidth: 1,
     borderColor: "#222A2A",
   },
