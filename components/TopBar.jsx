@@ -8,7 +8,7 @@ const TopBar = () => {
           style={{
             flexDirection: "row",
             alignItems: "center",
-            marginRight: 25,
+            // marginRight: 25,
           }}
         >
           <Image
@@ -25,7 +25,7 @@ const TopBar = () => {
             Monitor Beehive
           </Text>
         </View>
-        <Image
+        {/* <Image
           source={require("../assets/icons/usuario.png")}
           style={{
             resizeMode: "contain",
@@ -33,7 +33,7 @@ const TopBar = () => {
             position: "absolute",
             right: 12,
           }}
-        />
+        /> */}
       </View>
     </View>
   );

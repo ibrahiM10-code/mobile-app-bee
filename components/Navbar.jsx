@@ -1,26 +1,79 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { router } from "expo-router";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+const navItems = [
+  {
+    label: "Colmenas",
+    icon: "🍯",
+    onPress: () => {
+      router.push("/colmenas");
+    },
+  },
+  {
+    label: "Alertas",
+    icon: "🔔",
+    onPress: () => {
+      router.push("/alertas");
+    },
+  },
+  {
+    label: "Historial Reportes",
+    icon: "📄",
+    onPress: () => {
+      /* navigate to reports */
+    },
+  },
+  {
+    label: "Salir",
+    icon: "🚪",
+    onPress: () => {
+      /* handle logout */
+    },
+  },
+];
 
-const Navbar = () => {
-  return (
-    <View style={styles.backContainer}>
-      <View>
-        <Image source={require("../assets/icons/hogar.png")} width={36} />
-        <Text style={{ fontSize: 10 }}>Inicio</Text>
-      </View>
-      <View>
-        <Image source={require("../assets/icons/documento.png")} width={34} />
-        <Text style={{ fontSize: 10 }}>Historial de reportes</Text>
-      </View>
-    </View>
-  );
-};
+const Navbar = () => (
+  <View style={styles.navbar}>
+    {navItems.map((item) => (
+      <TouchableOpacity
+        key={item.label}
+        style={styles.button}
+        onPress={item.onPress}
+        activeOpacity={0.7}
+      >
+        <Text style={styles.icon}>{item.icon}</Text>
+        <Text style={styles.label}>{item.label}</Text>
+      </TouchableOpacity>
+    ))}
+  </View>
+);
 
 const styles = StyleSheet.create({
-  backContainer: {
-    backgroundColor: "grey",
-    width: "100%",
-    display: "flex",
+  navbar: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 64,
+    backgroundColor: "#222A2A",
+    flexDirection: "row",
     justifyContent: "space-around",
+    alignItems: "center",
+    zIndex: 1000,
+  },
+  button: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  icon: {
+    fontSize: 22,
+    marginBottom: 2,
+  },
+  label: {
+    fontSize: 10,
+    color: "#E1D9C1",
+    alignSelf: "center",
+    fontFamily: "Manrope-Bold",
   },
 });
 

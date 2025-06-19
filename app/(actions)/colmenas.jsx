@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Colmena from "../../components/Colmena";
+import Navbar from "../../components/Navbar";
 import TopBar from "../../components/TopBar";
 
 const Colmenas = () => {
@@ -122,21 +123,7 @@ const Colmenas = () => {
           }
         />
       </View>
-      {/* <View style={{ paddingHorizontal: 100, paddingBottom: 20, bottom: 50 }}>
-        <TouchableOpacity
-          style={{
-            backgroundColor: "#222A2A",
-            paddingHorizontal: 10,
-            paddingVertical: 10,
-            borderRadius: 5,
-          }}
-        >
-          <Text style={{ color: "#E1D9C1", textAlign: "center" }}>
-            Agregar Colmena
-          </Text>
-        </TouchableOpacity>
-      </View> */}
-      {/* <Navbar /> */}
+      <Navbar />
     </SafeAreaView>
   );
 };

@@ -63,6 +63,7 @@ const Register = () => {
             onChangeText={(text) => handleChange("ubicacion", text)}
             autoCapitalize="none"
           />
+          {/* Reeemplazar con todo lo necesario para acceder a la cámara, */}
           <TextInput
             style={styles.input}
             placeholder="Foto de colmena"

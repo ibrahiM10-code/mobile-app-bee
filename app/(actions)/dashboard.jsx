@@ -7,6 +7,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Navbar from "../../components/Navbar";
 import SensorData from "../../components/SensorData";
 import TopBar from "../../components/TopBar";
 
@@ -112,7 +113,7 @@ const Dashboard = () => {
           </View>
         </View>
       </ScrollView>
-      {/* <Navbar /> */}
+      <Navbar />
     </SafeAreaView>
   );
 };

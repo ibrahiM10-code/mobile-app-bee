@@ -1,8 +1,8 @@
 import { FlatList, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Alerta from "../../components/Alerta";
+import Navbar from "../../components/Navbar";
 import TopBar from "../../components/TopBar";
-
 const SeccionAlertas = () => {
   const mockData = [
     {
@@ -48,12 +48,6 @@ const SeccionAlertas = () => {
       <View style={{ height: "100%" }}>
         <FlatList
           data={mockData}
-          style={
-            {
-              // borderColor: "black",
-              // borderWidth: 1,
-            }
-          }
           renderItem={({ item }) => (
             <Alerta
               fechaAlerta={item.fechaAlerta}
@@ -71,7 +65,7 @@ const SeccionAlertas = () => {
           }}
         />
       </View>
-      {/* <Navbar /> */}
+      <Navbar />
     </SafeAreaView>
   );
 };
