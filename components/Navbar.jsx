@@ -26,7 +26,7 @@ const navItems = [
     label: "Salir",
     icon: "🚪",
     onPress: () => {
-      /* handle logout */
+      router.push("/");
     },
   },
 ];

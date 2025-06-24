@@ -1,4 +1,5 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { router } from "expo-router";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const Colmena = ({
@@ -13,103 +14,108 @@ const Colmena = ({
 }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={styles.colmenaContainer}>
-        <Image source={imgColmena} style={styles.imagenColmena} />
-        <View style={{ flex: 1 }}>
-          <Text
-            style={{
-              fontFamily: "Manrope-Bold",
-              fontSize: 10,
-              alignSelf: "flex-end",
-            }}
-          >
-            Estado: {estado}.
-          </Text>
-          <Text
-            style={{
-              fontFamily: "Manrope-Bold",
-              fontSize: 14,
-              alignSelf: "flex-start",
-              bottom: 10,
-              color: "#222A2A",
-            }}
-          >
-            {nombreColmena}
-          </Text>
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <View style={{ alignSelf: "center" }}>
-              <Image
-                source={require("../assets/icons/temperatura.png")}
-                style={{
-                  width: 25,
-                  height: 25,
-                  resizeMode: "contain",
-                }}
-              />
-              <Text
-                style={{
-                  fontFamily: "Manrope-Regular",
-                  fontSize: 13,
-                  left: 5,
-                  color: "#222A2A",
-                }}
-              >
-                {tempColmena}°
-              </Text>
-            </View>
-            <View>
-              <Image
-                source={require("../assets/icons/humedad.png")}
-                style={styles.icon}
-              />
-              <Text
-                style={{
-                  fontFamily: "Manrope-Regular",
-                  fontSize: 13,
-                  alignSelf: "center",
-                  color: "#222A2A",
-                }}
-              >
-                {humColmena}%
-              </Text>
-            </View>
-            <View>
-              <Image
-                source={require("../assets/icons/balanza.png")}
-                style={styles.icon}
-              />
-              <Text
-                style={{
-                  fontFamily: "Manrope-Regular",
-                  fontSize: 13,
-                  alignSelf: "center",
-                  color: "#222A2A",
-                }}
-              >
-                {pesoColmena}kg
-              </Text>
-            </View>
-            <View>
-              <Image
-                source={require("../assets/icons/sonido.png")}
-                style={styles.icon}
-              />
-              <Text
-                style={{
-                  fontFamily: "Manrope-Regular",
-                  fontSize: 13,
-                  alignSelf: "center",
-                  color: "#222A2A",
-                }}
-              >
-                {sonidoColmena}Hz
-              </Text>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => router.push("/dashboard")}
+      >
+        <View style={styles.colmenaContainer}>
+          <Image source={imgColmena} style={styles.imagenColmena} />
+          <View style={{ flex: 1 }}>
+            <Text
+              style={{
+                fontFamily: "Manrope-Bold",
+                fontSize: 10,
+                alignSelf: "flex-end",
+              }}
+            >
+              Estado: {estado}.
+            </Text>
+            <Text
+              style={{
+                fontFamily: "Manrope-Bold",
+                fontSize: 14,
+                alignSelf: "flex-start",
+                bottom: 10,
+                color: "#222A2A",
+              }}
+            >
+              {nombreColmena}
+            </Text>
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <View style={{ alignSelf: "center" }}>
+                <Image
+                  source={require("../assets/icons/temperatura.png")}
+                  style={{
+                    width: 25,
+                    height: 25,
+                    resizeMode: "contain",
+                  }}
+                />
+                <Text
+                  style={{
+                    fontFamily: "Manrope-Regular",
+                    fontSize: 13,
+                    left: 5,
+                    color: "#222A2A",
+                  }}
+                >
+                  {tempColmena}°
+                </Text>
+              </View>
+              <View>
+                <Image
+                  source={require("../assets/icons/humedad.png")}
+                  style={styles.icon}
+                />
+                <Text
+                  style={{
+                    fontFamily: "Manrope-Regular",
+                    fontSize: 13,
+                    alignSelf: "center",
+                    color: "#222A2A",
+                  }}
+                >
+                  {humColmena}%
+                </Text>
+              </View>
+              <View>
+                <Image
+                  source={require("../assets/icons/balanza.png")}
+                  style={styles.icon}
+                />
+                <Text
+                  style={{
+                    fontFamily: "Manrope-Regular",
+                    fontSize: 13,
+                    alignSelf: "center",
+                    color: "#222A2A",
+                  }}
+                >
+                  {pesoColmena}kg
+                </Text>
+              </View>
+              <View>
+                <Image
+                  source={require("../assets/icons/sonido.png")}
+                  style={styles.icon}
+                />
+                <Text
+                  style={{
+                    fontFamily: "Manrope-Regular",
+                    fontSize: 13,
+                    alignSelf: "center",
+                    color: "#222A2A",
+                  }}
+                >
+                  {sonidoColmena}Hz
+                </Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };

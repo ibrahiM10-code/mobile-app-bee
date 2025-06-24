@@ -1,11 +1,31 @@
 import { useLocalSearchParams } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import DatoRegistrado from "../../components/DatoRegistrado";
 import TopBar from "../../components/TopBar";
 
 const DetallesSensor = () => {
   const { nombreSensor } = useLocalSearchParams();
-  console.log(nombreSensor);
+
+  const mockData = [
+    {
+      fechaRegistro: "21-09-2025 09:57",
+      valorRegistrado: "30°",
+    },
+    {
+      fechaRegistro: "21-09-2025 11:31",
+      valorRegistrado: "31°",
+    },
+    {
+      fechaRegistro: "21-09-2025 12:24",
+      valorRegistrado: "32°",
+    },
+    {
+      fechaRegistro: "21-09-2025 13:50",
+      valorRegistrado: "33°",
+    },
+  ];
+
   return (
     <SafeAreaView style={{ backgroundColor: "#E1D9C1", flex: 1 }}>
       <TopBar />
@@ -78,93 +98,13 @@ const DetallesSensor = () => {
             Grados
           </Text>
         </View>
-        <View style={styles.registros}>
-          <Text
-            style={{
-              fontFamily: "Manrope-SemiBold",
-              color: "#222A2A",
-              fontSize: 13,
-            }}
-          >
-            21-09-2025 13:50
-          </Text>
-          <Text
-            style={{
-              fontFamily: "Manrope-SemiBold",
-              color: "#222A2A",
-              fontSize: 13,
-            }}
-          >
-            33°
-          </Text>
-        </View>
-        {/* <View
-          style={{
-            borderStyle: "solid",
-            borderColor: "white",
-            borderWidth: 0.3,
-          }}
-        ></View> */}
-        <View style={styles.registros}>
-          <Text
-            style={{
-              fontFamily: "Manrope-SemiBold",
-              color: "#222A2A",
-              fontSize: 13,
-            }}
-          >
-            21-09-2025 12:24
-          </Text>
-          <Text
-            style={{
-              fontFamily: "Manrope-SemiBold",
-              color: "#222A2A",
-              fontSize: 13,
-            }}
-          >
-            32°
-          </Text>
-        </View>
-        <View style={styles.registros}>
-          <Text
-            style={{
-              fontFamily: "Manrope-SemiBold",
-              color: "#222A2A",
-              fontSize: 13,
-            }}
-          >
-            21-09-2025 11:31
-          </Text>
-          <Text
-            style={{
-              fontFamily: "Manrope-SemiBold",
-              color: "#222A2A",
-              fontSize: 13,
-            }}
-          >
-            31°
-          </Text>
-        </View>
-        <View style={styles.registros}>
-          <Text
-            style={{
-              fontFamily: "Manrope-SemiBold",
-              color: "#222A2A",
-              fontSize: 13,
-            }}
-          >
-            21-09-2025 09:57
-          </Text>
-          <Text
-            style={{
-              fontFamily: "Manrope-SemiBold",
-              color: "#222A2A",
-              fontSize: 13,
-            }}
-          >
-            30°
-          </Text>
-        </View>
+        {mockData.map((dato, index) => (
+          <DatoRegistrado
+            key={index}
+            fechaRegistro={dato.fechaRegistro}
+            valorRegistrado={dato.valorRegistrado}
+          />
+        ))}
       </View>
     </SafeAreaView>
   );
@@ -177,8 +117,6 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     marginTop: 30,
-    // paddingHorizontal: 80,
-    // justifyContent: "center",
   },
   datoWrap: {
     height: 200,
@@ -194,29 +132,20 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     width: "50%",
     marginTop: 25,
-    // marginBottom: 45,
   },
   tablaRegistros: {
     backgroundColor: "#F39005",
     paddingVertical: 10,
-    // borderStyle: "solid",
-    // borderWidth: 1,
-    // borderColor: "black",
     borderRadius: 5,
     alignSelf: "center",
     width: "80%",
     marginBottom: 10,
+    paddingBottom: 15,
   },
   enunciados: {
     flexDirection: "row",
     justifyContent: "space-around",
-  },
-  registros: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginVertical: 10,
-    // alignSelf: "flex-start",
-    right: 13,
+    marginBottom: -20,
   },
 });
 
