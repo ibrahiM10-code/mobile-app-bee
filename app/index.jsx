@@ -48,7 +48,7 @@ const Inicio = () => {
           </View>
           <TextInput
             style={styles.input}
-            placeholder="RUT o Email"
+            placeholder="RUT (sin puntos con guion)"
             placeholderTextColor="#E1D9C1"
             value={form.email}
             onChangeText={(text) => handleChange("email", text)}

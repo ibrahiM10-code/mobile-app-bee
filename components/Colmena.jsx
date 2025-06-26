@@ -16,7 +16,7 @@ const Colmena = ({
     <SafeAreaView style={{ flex: 1 }}>
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => router.push("/dashboard")}
+        onPress={() => router.push(`/dashboardColmena/${idColmena}`)}
       >
         <View style={styles.colmenaContainer}>
           <Image source={imgColmena} style={styles.imagenColmena} />
@@ -33,13 +33,13 @@ const Colmena = ({
             <Text
               style={{
                 fontFamily: "Manrope-Bold",
-                fontSize: 14,
+                fontSize: 12,
                 alignSelf: "flex-start",
                 bottom: 10,
                 color: "#222A2A",
               }}
             >
-              {nombreColmena}
+              {nombreColmena} - Nombre Apiario
             </Text>
             <View
               style={{ flexDirection: "row", justifyContent: "space-between" }}

@@ -26,8 +26,8 @@ const Colmenas = () => {
 
     {
       idColmena: 2,
-      nombreColmena: "Colmena 1",
-      tempColmena: 31,
+      nombreColmena: "Colmena 2",
+      tempColmena: 32,
       humColmena: 30,
       pesoColmena: 45,
       sonidoColmena: 450,
@@ -37,7 +37,7 @@ const Colmenas = () => {
 
     {
       idColmena: 3,
-      nombreColmena: "Colmena 1",
+      nombreColmena: "Colmena 3",
       tempColmena: 31,
       humColmena: 30,
       pesoColmena: 45,
@@ -48,7 +48,7 @@ const Colmenas = () => {
 
     {
       idColmena: 4,
-      nombreColmena: "Colmena 1",
+      nombreColmena: "Colmena 4",
       tempColmena: 31,
       humColmena: 30,
       pesoColmena: 45,

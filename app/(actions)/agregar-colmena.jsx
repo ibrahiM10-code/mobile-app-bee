@@ -14,7 +14,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const Register = () => {
   const [form, setForm] = useState({
     nombreColmena: "",
-    ubicacion: "",
+    nombreApiario: "",
     password: "",
   });
 
@@ -57,10 +57,10 @@ const Register = () => {
           />
           <TextInput
             style={styles.input}
-            placeholder="Ubicación de colmena"
+            placeholder="Nombre del apiario"
             placeholderTextColor="#E1D9C1"
-            value={form.ubicacion}
-            onChangeText={(text) => handleChange("ubicacion", text)}
+            value={form.nombreApiario}
+            onChangeText={(text) => handleChange("nombreApiario", text)}
             autoCapitalize="none"
           />
           {/* Reeemplazar con todo lo necesario para acceder a la cámara, */}
