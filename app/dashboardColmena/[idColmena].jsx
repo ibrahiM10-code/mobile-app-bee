@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import {
   Image,
   ScrollView,
@@ -12,6 +13,9 @@ import SensorData from "../../components/SensorData";
 import TopBar from "../../components/TopBar";
 
 const Dashboard = () => {
+  // Simulate alerts state (replace with real logic as needed)
+  const hasAlerts = false; // Change to true to test "There are alerts"
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#E1D9C1" }}>
       <TopBar />
@@ -20,6 +24,57 @@ const Dashboard = () => {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
+        {/* Alerts Row */}
+        <View
+          style={{
+            position: "absolute",
+            top: 20,
+            zIndex: 1,
+            right: 20,
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            paddingHorizontal: 20,
+            marginTop: 16,
+            marginBottom: 8,
+            gap: 12,
+          }}
+        >
+          <Text
+            style={{
+              fontFamily: "Manrope-Bold",
+              fontSize: 14,
+              color: hasAlerts ? "#222A2A" : "#E1D9C1",
+              backgroundColor: hasAlerts ? "#F39005" : "#222A2A",
+              borderColor: hasAlerts ? "#222A2A" : "#E1D9C1",
+              left: 5,
+              paddingVertical: 5,
+              paddingHorizontal: 20,
+              borderRadius: 20,
+            }}
+          >
+            {hasAlerts ? "Revisa las alertas!" : "Todo en orden"}
+          </Text>
+          <TouchableOpacity
+            style={{
+              backgroundColor: hasAlerts ? "#F39005" : "#222A2A",
+              borderColor: hasAlerts ? "#222A2A" : "#E1D9C1",
+              paddingVertical: 8,
+              paddingHorizontal: 16,
+              borderRadius: "50%",
+              height: 50,
+              width: 50,
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+            onPress={() => {
+              router.push("/alertasIndividuales/[idColmenaAlerta]");
+            }}
+          >
+            <Text style={{ fontSize: 15 }}>🔔</Text>
+          </TouchableOpacity>
+        </View>
+
         <Image
           source={require("../../assets/images/foto-dashboard.jpg")}
           style={{ resizeMode: "cover", width: "100%", height: 330 }}
@@ -126,7 +181,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 32,
   },
-  reporteColmena: {},
 });
 
 export default Dashboard;

@@ -1,3 +1,4 @@
+import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
@@ -11,20 +12,47 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const Register = () => {
+const AgregarColmena = () => {
   const [form, setForm] = useState({
     nombreColmena: "",
     nombreApiario: "",
     password: "",
+    fotoColmena: null,
   });
 
   const handleChange = (key, value) => {
     setForm({ ...form, [key]: value });
   };
 
-  const handleRegister = () => {
-    // Handle registration logic here
+  const handleColmena = () => {
+    const formData = new FormData();
+    formData.append("nombreColmena", form.nombreColmena);
+    formData.append("nombreApiario", form.nombreApiario);
+    if (form.fotoColmena) {
+      formData.append("fotoColmena", {
+        uri: form.fotoColmena,
+        name: "colmena.jpg",
+        type: "image/jpeg",
+      });
+    }
     router.push("/colmenas");
+  };
+
+  const tomarFoto = async () => {
+    const permission = await ImagePicker.requestCameraPermissionsAsync();
+    if (!permission.granted) {
+      alert("Se requiere permiso para acceder a la cámara.");
+      return;
+    }
+    const result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ["images"],
+      quality: 0.7,
+      base64: false,
+    });
+    console.log(result);
+    if (!result.canceled) {
+      setForm({ ...form, fotoColmena: result.assets[0].uri });
+    }
   };
 
   return (
@@ -63,18 +91,35 @@ const Register = () => {
             onChangeText={(text) => handleChange("nombreApiario", text)}
             autoCapitalize="none"
           />
-          {/* Reeemplazar con todo lo necesario para acceder a la cámara, */}
-          <TextInput
-            style={styles.input}
-            placeholder="Foto de colmena"
-            placeholderTextColor="#E1D9C1"
-            value={form.password}
-            onChangeText={(text) => handleChange("password", text)}
-            secureTextEntry
-          />
+          {/* Camera Button */}
+          <TouchableOpacity
+            style={{
+              backgroundColor: "#E1D9C1",
+              padding: 12,
+              borderRadius: 8,
+              alignItems: "center",
+              marginBottom: 20,
+            }}
+            onPress={tomarFoto}
+          >
+            <Text style={{ color: "#222A2A", fontFamily: "Manrope-Bold" }}>
+              {form.fotoColmena ? "Cambiar foto" : "Tomar foto de colmena"}
+            </Text>
+          </TouchableOpacity>
+          {form.fotoColmena && (
+            <Image
+              source={{ uri: form.fotoColmena }}
+              style={{
+                width: 100,
+                height: 100,
+                marginBottom: 16,
+                borderRadius: 8,
+              }}
+            />
+          )}
           <View style={styles.buttonContainer}>
             <TouchableOpacity
-              onPress={handleRegister}
+              onPress={handleColmena}
               style={{
                 backgroundColor: "#E1D9C1",
                 padding: 12,
@@ -134,4 +179,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Register;
+export default AgregarColmena;
