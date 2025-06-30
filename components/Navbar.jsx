@@ -19,7 +19,7 @@ const navItems = [
     label: "Historial Reportes",
     icon: "📄",
     onPress: () => {
-      /* navigate to reports */
+      router.push("/reportes");
     },
   },
   {
