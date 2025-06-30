@@ -134,7 +134,12 @@ const Dashboard = () => {
           <View>
             <Image
               source={require("../../assets/images/colmena.jpg")}
-              style={{ width: 137, height: 105 }}
+              style={{
+                width: 137,
+                height: 105,
+                borderRadius: 5,
+                resizeMode: "cover",
+              }}
             />
           </View>
           <View style={styles.reporteColmena}>
