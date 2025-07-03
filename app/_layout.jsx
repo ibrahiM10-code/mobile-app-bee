@@ -3,6 +3,7 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
+import { AuthProvider } from "../context/AuthProvider";
 
 const RootLayout = () => {
   SplashScreen.preventAutoHideAsync();
@@ -27,22 +28,24 @@ const RootLayout = () => {
   // Cambios por hacer en el futuro: dashboard/id de colmena; alertas/id de colmena;
   // Rutas por agregar en el futuro: reportes, ajustes.
   return (
-    <Stack>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="(actions)" options={{ headerShown: false }} />
-      <Stack.Screen
-        name="sensor/[nombreSensor]"
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="dashboardColmena/[idColmena]"
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="alertasIndividuales/[idColmenaAlerta]"
-        options={{ headerShown: false }}
-      />
-    </Stack>
+    <AuthProvider>
+      <Stack>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="(actions)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="sensor/[nombreSensor]"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="dashboardColmena/[idColmena]"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="alertasIndividuales/[idColmenaAlerta]"
+          options={{ headerShown: false }}
+        />
+      </Stack>
+    </AuthProvider>
   );
 };
 

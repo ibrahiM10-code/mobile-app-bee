@@ -1,6 +1,7 @@
+import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   Image,
   ScrollView,
@@ -11,12 +12,13 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import AuthContext from "../../context/AuthProvider";
 
 const AgregarColmena = () => {
+  const { config, userId } = useContext(AuthContext);
   const [form, setForm] = useState({
     nombreColmena: "",
     nombreApiario: "",
-    password: "",
     fotoColmena: null,
   });
 
@@ -24,18 +26,33 @@ const AgregarColmena = () => {
     setForm({ ...form, [key]: value });
   };
 
-  const handleColmena = () => {
+  const handleColmena = async () => {
     const formData = new FormData();
-    formData.append("nombreColmena", form.nombreColmena);
-    formData.append("nombreApiario", form.nombreApiario);
-    if (form.fotoColmena) {
-      formData.append("fotoColmena", {
-        uri: form.fotoColmena,
-        name: "colmena.jpg",
-        type: "image/jpeg",
-      });
+    formData.append("nombre_colmena", form.nombreColmena);
+    formData.append("nombre_apiario", form.nombreApiario);
+    formData.append("id_apicultor", userId);
+    try {
+      const response = await axios.post(
+        "http://192.168.0.10:5000/colmenas/agregar-colmena",
+        {
+          nombre_colmena: form.nombreColmena,
+          nombre_apiario: form.nombreApiario,
+          id_apicultor: userId,
+        },
+        config
+      );
+      console.log(response.data);
+      router.push("/colmenas");
+    } catch (error) {
+      console.error("Error al agregar colmena:", error);
     }
-    router.push("/colmenas");
+    // if (form.fotoColmena) {
+    //   formData.append("fotoColmena", {
+    //     uri: form.fotoColmena,
+    //     name: "colmena.jpg",
+    //     type: "image/jpeg",
+    //   });
+    // }
   };
 
   const tomarFoto = async () => {

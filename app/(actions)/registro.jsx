@@ -1,3 +1,4 @@
+import axios from "axios";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
@@ -13,21 +14,44 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const Register = () => {
   const [form, setForm] = useState({
-    name: "",
+    nombre: "",
+    rut: "",
     email: "",
     password: "",
     confirmPassword: "",
-    phone: "",
-    address: "",
+    telefono: "",
+    direccion: "",
   });
 
   const handleChange = (key, value) => {
     setForm({ ...form, [key]: value });
   };
 
-  const handleRegister = () => {
-    // Handle registration logic here
-    router.push("/colmenas");
+  const handleRegister = async () => {
+    console.log("hit");
+    try {
+      console.log("hola");
+      const response = await axios.post(
+        "http://192.168.0.10:5000/auth/registrar-apicultor",
+        {
+          nombre: form.nombre,
+          rut: form.rut,
+          email: form.email,
+          password: form.password,
+          telefono: form.telefono,
+          direccion: form.direccion,
+        }
+      );
+      console.log(response);
+      if (response.status === 201) {
+        alert("Registro exitoso");
+        router.push("/login");
+      } else {
+        alert("Error al registrar, por favor intente nuevamente.");
+      }
+    } catch (error) {
+      console.error("Error during registration:", error);
+    }
   };
 
   return (
@@ -55,21 +79,27 @@ const Register = () => {
             style={styles.input}
             placeholder="Nombre y Apellido"
             placeholderTextColor="#E1D9C1"
-            value={form.name}
-            onChangeText={(text) => handleChange("name", text)}
+            value={form.nombre}
+            onChangeText={(text) => handleChange("nombre", text)}
           />
           <TextInput
             style={styles.input}
             placeholder="RUT"
             placeholderTextColor="#E1D9C1"
-            value={form.email}
-            onChangeText={(text) => handleChange("email", text)}
-            keyboardType="email-address"
+            value={form.rut}
+            onChangeText={(text) => handleChange("rut", text)}
             autoCapitalize="none"
           />
           <TextInput
             style={styles.input}
             placeholder="Email"
+            placeholderTextColor="#E1D9C1"
+            value={form.email}
+            onChangeText={(text) => handleChange("email", text)}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Contraseña"
             placeholderTextColor="#E1D9C1"
             value={form.password}
             onChangeText={(text) => handleChange("password", text)}
@@ -77,7 +107,7 @@ const Register = () => {
           />
           <TextInput
             style={styles.input}
-            placeholder="Contraseña"
+            placeholder="Confirme Contraseña"
             placeholderTextColor="#E1D9C1"
             value={form.confirmPassword}
             onChangeText={(text) => handleChange("confirmPassword", text)}
@@ -85,11 +115,18 @@ const Register = () => {
           />
           <TextInput
             style={styles.input}
-            placeholder="Confirme Contraseña"
+            placeholder="Teléfono"
             placeholderTextColor="#E1D9C1"
-            value={form.phone}
-            onChangeText={(text) => handleChange("phone", text)}
+            value={form.telefono}
+            onChangeText={(text) => handleChange("telefono", text)}
             keyboardType="phone-pad"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Dirección"
+            placeholderTextColor="#E1D9C1"
+            value={form.direccion}
+            onChangeText={(text) => handleChange("direccion", text)}
           />
           <View style={styles.buttonContainer}>
             <TouchableOpacity

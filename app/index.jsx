@@ -1,5 +1,6 @@
+import axios from "axios";
 import { router } from "expo-router";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   Image,
   ScrollView,
@@ -10,10 +11,12 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import AuthContext from "../context/AuthProvider";
 
 const Inicio = () => {
+  const { setToken, setUser } = useContext(AuthContext);
   const [form, setForm] = useState({
-    email: "",
+    rut: "",
     password: "",
   });
 
@@ -21,9 +24,24 @@ const Inicio = () => {
     setForm({ ...form, [key]: value });
   };
 
-  const handleLogin = () => {
-    // Handle registration logic here
-    router.push("/colmenas");
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post(
+        "http://192.168.0.10:5000/auth/login",
+        form
+      );
+      if (response.status === 200) {
+        alert("Inicio de sesión exitoso");
+        console.log(response.data);
+        setToken(response.data[0].token);
+        setUser(response.data[0].user);
+        router.push("/colmenas");
+      } else {
+        alert("Error al iniciar sesión, por favor intente nuevamente.");
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -50,9 +68,8 @@ const Inicio = () => {
             style={styles.input}
             placeholder="RUT (sin puntos con guion)"
             placeholderTextColor="#E1D9C1"
-            value={form.email}
-            onChangeText={(text) => handleChange("email", text)}
-            keyboardType="email-address"
+            value={form.rut}
+            onChangeText={(text) => handleChange("rut", text)}
             autoCapitalize="none"
           />
           <TextInput

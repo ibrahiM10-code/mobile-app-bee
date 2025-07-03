@@ -11,6 +11,7 @@ const Colmena = ({
   imgColmena,
   estado,
   idColmena,
+  nombreApiario,
 }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>

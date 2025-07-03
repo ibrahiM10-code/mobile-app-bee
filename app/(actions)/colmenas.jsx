@@ -1,4 +1,6 @@
+import axios from "axios";
 import { router } from "expo-router";
+import { useContext, useEffect, useState } from "react";
 import {
   FlatList,
   StyleSheet,
@@ -10,8 +12,28 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Colmena from "../../components/Colmena";
 import Navbar from "../../components/Navbar";
 import TopBar from "../../components/TopBar";
+import AuthContext from "../../context/AuthProvider";
 
 const Colmenas = () => {
+  const { userId, userToken, config } = useContext(AuthContext);
+  const [colmena, setColmena] = useState(null);
+
+  useEffect(() => {
+    const getDatosColmenas = async () => {
+      try {
+        const response = await axios.get(
+          `http://192.168.0.10:5000/colmenas/obtener-colmenas/${userId}`,
+          config
+        );
+        setColmena(response.data);
+        console.log(colmena);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getDatosColmenas();
+  }, []);
+
   const mockData = [
     {
       idColmena: 1,
@@ -73,12 +95,6 @@ const Colmenas = () => {
       </Text>
       <View style={{ width: "100%", height: "70%" }}>
         <FlatList
-          style={
-            {
-              // borderWidth: 1,
-              // borderColor: "#222A2A",
-            }
-          }
           data={mockData}
           renderItem={({ item }) => (
             <Colmena
@@ -89,6 +105,7 @@ const Colmenas = () => {
               sonidoColmena={item.sonidoColmena}
               estado={item.estado}
               imgColmena={item.imgColmena}
+              nombreApiario={item.nombreApiario}
             />
           )}
           keyExtractor={(item) => item.idColmena}
