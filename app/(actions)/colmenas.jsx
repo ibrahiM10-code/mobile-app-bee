@@ -32,53 +32,8 @@ const Colmenas = () => {
       }
     };
     getDatosColmenas();
-  }, []);
+  }, [userId]);
 
-  const mockData = [
-    {
-      idColmena: 1,
-      nombreColmena: "Colmena 1",
-      tempColmena: 31,
-      humColmena: 30,
-      pesoColmena: 45,
-      sonidoColmena: 450,
-      estado: "Optimo",
-      imgColmena: require("../../assets/images/colmena.jpg"),
-    },
-
-    {
-      idColmena: 2,
-      nombreColmena: "Colmena 2",
-      tempColmena: 32,
-      humColmena: 30,
-      pesoColmena: 45,
-      sonidoColmena: 450,
-      estado: "Optimo",
-      imgColmena: require("../../assets/images/colmena.jpg"),
-    },
-
-    {
-      idColmena: 3,
-      nombreColmena: "Colmena 3",
-      tempColmena: 31,
-      humColmena: 30,
-      pesoColmena: 45,
-      sonidoColmena: 450,
-      estado: "Optimo",
-      imgColmena: require("../../assets/images/colmena.jpg"),
-    },
-
-    {
-      idColmena: 4,
-      nombreColmena: "Colmena 4",
-      tempColmena: 31,
-      humColmena: 30,
-      pesoColmena: 45,
-      sonidoColmena: 450,
-      estado: "Optimo",
-      imgColmena: require("../../assets/images/colmena.jpg"),
-    },
-  ];
   return (
     <SafeAreaView style={{ backgroundColor: "#E1D9C1", flex: 1 }}>
       <TopBar />
@@ -95,17 +50,22 @@ const Colmenas = () => {
       </Text>
       <View style={{ width: "100%", height: "70%" }}>
         <FlatList
-          data={mockData}
+          data={colmena}
           renderItem={({ item }) => (
             <Colmena
-              nombreColmena={item.nombreColmena}
-              tempColmena={item.tempColmena}
-              humColmena={item.humColmena}
-              pesoColmena={item.pesoColmena}
-              sonidoColmena={item.sonidoColmena}
-              estado={item.estado}
-              imgColmena={item.imgColmena}
-              nombreApiario={item.nombreApiario}
+              nombreColmena={item.nombre_colmena}
+              tempColmena={0}
+              humColmena={0}
+              pesoColmena={0}
+              sonidoColmena={0}
+              estado={"Optimo"}
+              imgColmena={
+                item.foto_colmena && typeof item.foto_colmena_url === "string"
+                  ? { uri: `${item.foto_colmena_url}` }
+                  : require("../../assets/images/colmena.jpg")
+              }
+              nombreApiario={item.nombre_apiario}
+              key={item._id}
             />
           )}
           keyExtractor={(item) => item.idColmena}

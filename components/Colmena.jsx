@@ -40,7 +40,7 @@ const Colmena = ({
                 color: "#222A2A",
               }}
             >
-              {nombreColmena} - Nombre Apiario
+              {nombreColmena} - {nombreApiario}
             </Text>
             <View
               style={{ flexDirection: "row", justifyContent: "space-between" }}

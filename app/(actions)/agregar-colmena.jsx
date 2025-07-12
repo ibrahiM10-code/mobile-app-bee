@@ -15,12 +15,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import AuthContext from "../../context/AuthProvider";
 
 const AgregarColmena = () => {
-  const { config, userId } = useContext(AuthContext);
+  const { userToken, userId } = useContext(AuthContext);
   const [form, setForm] = useState({
     nombreColmena: "",
     nombreApiario: "",
     fotoColmena: null,
   });
+  const fecha = new Date();
+  const fechaFormateada = fecha.toISOString().split("T")[0]; // e.g., 2024-06-08
 
   const handleChange = (key, value) => {
     setForm({ ...form, [key]: value });
@@ -31,28 +33,30 @@ const AgregarColmena = () => {
     formData.append("nombre_colmena", form.nombreColmena);
     formData.append("nombre_apiario", form.nombreApiario);
     formData.append("id_apicultor", userId);
+    if (form.fotoColmena) {
+      formData.append("foto_colmena", {
+        uri: form.fotoColmena,
+        name: `colmena-${fechaFormateada}.jpg`,
+        type: "image/jpeg",
+      });
+    }
     try {
       const response = await axios.post(
         "http://192.168.0.10:5000/colmenas/agregar-colmena",
+        formData,
         {
-          nombre_colmena: form.nombreColmena,
-          nombre_apiario: form.nombreApiario,
-          id_apicultor: userId,
-        },
-        config
+          headers: {
+            Authorization: `Bearer ${userToken}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
+      console.log("hola");
       console.log(response.data);
       router.push("/colmenas");
     } catch (error) {
       console.error("Error al agregar colmena:", error);
     }
-    // if (form.fotoColmena) {
-    //   formData.append("fotoColmena", {
-    //     uri: form.fotoColmena,
-    //     name: "colmena.jpg",
-    //     type: "image/jpeg",
-    //   });
-    // }
   };
 
   const tomarFoto = async () => {
