@@ -26,7 +26,7 @@ const Colmenas = () => {
           config
         );
         setColmena(response.data);
-        console.log(colmena);
+        console.log(response.data);
       } catch (error) {
         console.error(error);
       }

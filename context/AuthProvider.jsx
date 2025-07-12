@@ -42,12 +42,12 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Función de logout
-  //   const logout = async () => {
-  //     await AsyncStorage.removeItem("token");
-  //     setToken(null);
-  //     setUser(null);
-  //   };
+  const logout = async () => {
+    await AsyncStorage.removeItem("token");
+    await AsyncStorage.removeItem("userId");
+    setToken(null);
+    setUser(null);
+  };
   const config = { headers: { Authorization: `Bearer ${userToken}` } };
   const value = {
     userToken,
@@ -55,6 +55,7 @@ export const AuthProvider = ({ children }) => {
     setUser,
     setToken,
     config,
+    logout,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
