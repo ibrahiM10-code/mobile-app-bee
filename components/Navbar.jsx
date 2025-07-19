@@ -1,9 +1,5 @@
 import { router } from "expo-router";
-import { useContext } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import AuthContext from "../context/AuthProvider";
-
-const { logout } = useContext(AuthContext);
 
 const navItems = [
   {
@@ -31,7 +27,7 @@ const navItems = [
     label: "Salir",
     icon: "🚪",
     onPress: () => {
-      router.push("/");
+      router.push("/logout");
     },
   },
 ];

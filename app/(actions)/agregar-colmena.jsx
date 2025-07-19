@@ -42,7 +42,7 @@ const AgregarColmena = () => {
     }
     try {
       const response = await axios.post(
-        "http://192.168.0.10:5000/colmenas/agregar-colmena",
+        "http://192.168.0.9:5000/colmenas/agregar-colmena",
         formData,
         {
           headers: {

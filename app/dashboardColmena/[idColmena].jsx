@@ -1,4 +1,6 @@
-import { router } from "expo-router";
+import axios from "axios";
+import { router, useLocalSearchParams } from "expo-router";
+import { useContext, useEffect, useState } from "react";
 import {
   Image,
   ScrollView,
@@ -11,8 +13,30 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Navbar from "../../components/Navbar";
 import SensorData from "../../components/SensorData";
 import TopBar from "../../components/TopBar";
+import AuthContext from "../../context/AuthProvider";
 
 const Dashboard = () => {
+  const [datosSensores, setDatosSensores] = useState([]);
+  const { config } = useContext(AuthContext);
+  const { idColmena } = useLocalSearchParams();
+
+  useEffect(() => {
+    const getDatosSensores = async () => {
+      try {
+        const response = await axios.get(
+          `http://192.168.0.9:5000/sensores/obtener-sensores/${idColmena}`,
+          config
+        );
+        console.log("Datos de sensores:", response.data);
+        setDatosSensores(response.data[0]);
+      } catch (error) {
+        console.error("Error fetching sensor data:", error);
+      }
+    };
+
+    getDatosSensores();
+  }, [config, idColmena]);
+
   // Simulate alerts state (replace with real logic as needed)
   const hasAlerts = false; // Change to true to test "There are alerts"
 
@@ -91,14 +115,14 @@ const Dashboard = () => {
         >
           <SensorData
             nombreSensor={"Temperatura"}
-            datoSensor={31}
+            datoSensor={datosSensores.temperatura || 0}
             estado={"Óptima"}
             metrica={"°"}
             icono={require("../../assets/icons/temperatura.png")}
           />
           <SensorData
             nombreSensor={"Humedad"}
-            datoSensor={30}
+            datoSensor={datosSensores.humedad || 0}
             estado={"Óptima"}
             metrica={"%"}
             icono={require("../../assets/icons/humedad.png")}
@@ -106,14 +130,14 @@ const Dashboard = () => {
 
           <SensorData
             nombreSensor={"Peso"}
-            datoSensor={45}
+            datoSensor={datosSensores.peso || 0}
             estado={"Óptimo"}
             metrica={"kg"}
             icono={require("../../assets/icons/balanza.png")}
           />
           <SensorData
             nombreSensor={"Sonido"}
-            datoSensor={350}
+            datoSensor={datosSensores.sonido || 0}
             estado={"Reina presente"}
             metrica={"Hz"}
             icono={require("../../assets/icons/sonido.png")}

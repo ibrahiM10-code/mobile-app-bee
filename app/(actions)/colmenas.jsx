@@ -15,14 +15,14 @@ import TopBar from "../../components/TopBar";
 import AuthContext from "../../context/AuthProvider";
 
 const Colmenas = () => {
-  const { userId, userToken, config } = useContext(AuthContext);
+  const { userId, config } = useContext(AuthContext);
   const [colmena, setColmena] = useState(null);
 
   useEffect(() => {
     const getDatosColmenas = async () => {
       try {
         const response = await axios.get(
-          `http://192.168.0.10:5000/colmenas/obtener-colmenas/${userId}`,
+          `http://192.168.0.9:5000/colmenas/obtener-colmenas/${userId}`,
           config
         );
         setColmena(response.data);
@@ -65,6 +65,7 @@ const Colmenas = () => {
                   : require("../../assets/images/colmena.jpg")
               }
               nombreApiario={item.nombre_apiario}
+              idColmena={item.colmena_id}
               key={item._id}
             />
           )}

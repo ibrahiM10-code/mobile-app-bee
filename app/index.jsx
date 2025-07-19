@@ -27,7 +27,7 @@ const Inicio = () => {
   const handleLogin = async () => {
     try {
       const response = await axios.post(
-        "http://192.168.0.10:5000/auth/login",
+        "http://192.168.0.9:5000/auth/login",
         form
       );
       if (response.status === 200) {
