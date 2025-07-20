@@ -1,52 +1,64 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
+import { useContext } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import AuthContext from "../context/AuthProvider";
 
-const navItems = [
-  {
-    label: "Colmenas",
-    icon: "🍯",
-    onPress: () => {
-      router.push("/colmenas");
-    },
-  },
-  {
-    label: "Alertas",
-    icon: "🔔",
-    onPress: () => {
-      router.push("/alertas");
-    },
-  },
-  {
-    label: "Historial Reportes",
-    icon: "📄",
-    onPress: () => {
-      router.push("/reportes");
-    },
-  },
-  {
-    label: "Salir",
-    icon: "🚪",
-    onPress: () => {
-      router.push("/logout");
-    },
-  },
-];
+const Navbar = () => {
+  const { setUserToken, setUserId } = useContext(AuthContext);
 
-const Navbar = () => (
-  <View style={styles.navbar}>
-    {navItems.map((item) => (
-      <TouchableOpacity
-        key={item.label}
-        style={styles.button}
-        onPress={item.onPress}
-        activeOpacity={0.7}
-      >
-        <Text style={styles.icon}>{item.icon}</Text>
-        <Text style={styles.label}>{item.label}</Text>
-      </TouchableOpacity>
-    ))}
-  </View>
-);
+  const loggingOut = async () => {
+    setUserToken(null);
+    setUserId(null);
+    await AsyncStorage.removeItem("token");
+    await AsyncStorage.removeItem("userId");
+    router.replace("/");
+  };
+
+  const navItems = [
+    {
+      label: "Colmenas",
+      icon: "🍯",
+      onPress: () => {
+        router.push("/colmenas");
+      },
+    },
+    {
+      label: "Alertas",
+      icon: "🔔",
+      onPress: () => {
+        router.push("/alertas");
+      },
+    },
+    {
+      label: "Historial Reportes",
+      icon: "📄",
+      onPress: () => {
+        router.push("/reportes");
+      },
+    },
+    {
+      label: "Salir",
+      icon: "🚪",
+      onPress: loggingOut,
+    },
+  ];
+  return (
+    <View style={styles.navbar}>
+      {navItems.map((item) => (
+        <TouchableOpacity
+          key={item.label}
+          style={styles.button}
+          onPress={item.onPress}
+          activeOpacity={0.7}
+        >
+          <Text style={styles.icon}>{item.icon}</Text>
+          <Text style={styles.label}>{item.label}</Text>
+        </TouchableOpacity>
+      ))}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   navbar: {

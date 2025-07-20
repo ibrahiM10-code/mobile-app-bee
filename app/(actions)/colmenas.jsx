@@ -19,6 +19,7 @@ const Colmenas = () => {
   const [colmena, setColmena] = useState(null);
 
   useEffect(() => {
+    if (!userId) return;
     const getDatosColmenas = async () => {
       try {
         const response = await axios.get(

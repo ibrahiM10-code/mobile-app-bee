@@ -42,20 +42,15 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = async () => {
-    await AsyncStorage.removeItem("token");
-    await AsyncStorage.removeItem("userId");
-    setToken(null);
-    setUser(null);
-  };
   const config = { headers: { Authorization: `Bearer ${userToken}` } };
   const value = {
     userToken,
     userId,
     setUser,
     setToken,
+    setUserToken,
+    setUserId,
     config,
-    logout,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
