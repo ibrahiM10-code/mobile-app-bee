@@ -21,6 +21,11 @@ const AgregarColmena = () => {
     nombreApiario: "",
     fotoColmena: null,
   });
+  const [errores, setErrores] = useState({
+    nombreColmena: "",
+    nombreApiario: "",
+    fotoColmena: "",
+  });
   const fecha = new Date();
   const fechaFormateada = fecha.toISOString().split("T")[0]; // e.g., 2024-06-08
 
@@ -29,6 +34,24 @@ const AgregarColmena = () => {
   };
 
   const handleColmena = async () => {
+    // Validaciones
+    let erroresTemp = { nombreColmena: "", nombreApiario: "", fotoColmena: "" };
+    let valido = true;
+    if (!form.nombreColmena.trim()) {
+      erroresTemp.nombreColmena = "El nombre de la colmena es obligatorio.";
+      valido = false;
+    }
+    if (!form.nombreApiario.trim()) {
+      erroresTemp.nombreApiario = "El nombre del apiario es obligatorio.";
+      valido = false;
+    }
+    if (!form.fotoColmena) {
+      erroresTemp.fotoColmena = "La foto de la colmena es obligatoria.";
+      valido = false;
+    }
+    setErrores(erroresTemp);
+    if (!valido) return;
+
     const formData = new FormData();
     formData.append("nombre_colmena", form.nombreColmena);
     formData.append("nombre_apiario", form.nombreApiario);
@@ -42,7 +65,7 @@ const AgregarColmena = () => {
     }
     try {
       const response = await axios.post(
-        "http://192.168.0.9:5000/colmenas/agregar-colmena",
+        "http://192.168.1.101:5000/colmenas/agregar-colmena",
         formData,
         {
           headers: {
@@ -73,6 +96,7 @@ const AgregarColmena = () => {
     console.log(result);
     if (!result.canceled) {
       setForm({ ...form, fotoColmena: result.assets[0].uri });
+      setErrores({ ...errores, fotoColmena: "" });
     }
   };
 
@@ -102,16 +126,28 @@ const AgregarColmena = () => {
             placeholder="Nombre de colmena"
             placeholderTextColor="#E1D9C1"
             value={form.nombreColmena}
-            onChangeText={(text) => handleChange("nombreColmena", text)}
+            onChangeText={(text) => {
+              handleChange("nombreColmena", text);
+              setErrores({ ...errores, nombreColmena: "" });
+            }}
           />
+          {errores.nombreColmena ? (
+            <Text style={styles.errorText}>{errores.nombreColmena}</Text>
+          ) : null}
           <TextInput
             style={styles.input}
             placeholder="Nombre del apiario"
             placeholderTextColor="#E1D9C1"
             value={form.nombreApiario}
-            onChangeText={(text) => handleChange("nombreApiario", text)}
+            onChangeText={(text) => {
+              handleChange("nombreApiario", text);
+              setErrores({ ...errores, nombreApiario: "" });
+            }}
             autoCapitalize="none"
           />
+          {errores.nombreApiario ? (
+            <Text style={styles.errorText}>{errores.nombreApiario}</Text>
+          ) : null}
           {/* Camera Button */}
           <TouchableOpacity
             style={{
@@ -127,6 +163,9 @@ const AgregarColmena = () => {
               {form.fotoColmena ? "Cambiar foto" : "Tomar foto de colmena"}
             </Text>
           </TouchableOpacity>
+          {errores.fotoColmena ? (
+            <Text style={styles.errorText}>{errores.fotoColmena}</Text>
+          ) : null}
           {form.fotoColmena && (
             <Image
               source={{ uri: form.fotoColmena }}
@@ -197,6 +236,13 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: "100%",
     marginTop: 8,
+  },
+  errorText: {
+    color: "#FF6B6B",
+    fontSize: 14,
+    marginBottom: 8,
+    alignSelf: "flex-start",
+    fontFamily: "Manrope-SemiBold",
   },
 });
 

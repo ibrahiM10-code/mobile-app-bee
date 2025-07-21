@@ -19,27 +19,70 @@ const Inicio = () => {
     rut: "",
     password: "",
   });
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleChange = (key, value) => {
     setForm({ ...form, [key]: value });
   };
 
+  const validarRut = (rut) => {
+    // Elimina espacios y convierte a mayúsculas
+    rut = rut.replace(/\s+/g, '').toUpperCase();
+    // Valida formato básico
+    if (!/^\d{7,8}-[\dK]$/.test(rut)) return false;
+    const [cuerpo, dv] = rut.split('-');
+    let suma = 0;
+    let multiplo = 2;
+    for (let i = cuerpo.length - 1; i >= 0; i--) {
+      suma += parseInt(cuerpo[i]) * multiplo;
+      multiplo = multiplo < 7 ? multiplo + 1 : 2;
+    }
+    const dvEsperado = 11 - (suma % 11);
+    let dvCalc = dvEsperado === 11 ? '0' : dvEsperado === 10 ? 'K' : dvEsperado.toString();
+    return dv === dvCalc;
+  };
+
   const handleLogin = async () => {
+    // Validaciones
+    if (!form.rut) {
+      setErrorMsg("El RUT es obligatorio");
+      return;
+    }
+    if (!validarRut(form.rut)) {
+      setErrorMsg("El RUT ingresado no es válido");
+      return;
+    }
+    if (!form.password) {
+      setErrorMsg("La contraseña es obligatoria");
+      return;
+    }
+    if (form.password.length < 6) {
+      setErrorMsg("La contraseña debe tener al menos 6 caracteres");
+      return;
+    }
     try {
       const response = await axios.post(
-        "http://192.168.0.9:5000/auth/login",
+        "http://192.168.1.101:5000/auth/login",
         form
       );
       if (response.status === 200) {
+        setErrorMsg("");
         alert("Inicio de sesión exitoso");
         console.log(response.data);
         setToken(response.data[0].token);
         setUser(response.data[0].user);
-        router.push("/colmenas");
+        router.push('/(actions)/colmenas');
       } else {
-        alert("Error al iniciar sesión, por favor intente nuevamente.");
+        setErrorMsg("Error al iniciar sesión, por favor intente nuevamente.");
       }
     } catch (error) {
+      if (error.response && error.response.status === 401) {
+        setErrorMsg("RUT o contraseña incorrectos. Por favor, inténtalo de nuevo.");
+        return;
+      } else {
+        setErrorMsg("Error al iniciar sesión. Intenta nuevamente más tarde.");
+        return;
+      }
       console.error("Error during login:", error);
     }
   };
@@ -69,7 +112,10 @@ const Inicio = () => {
             placeholder="RUT (sin puntos con guion)"
             placeholderTextColor="#E1D9C1"
             value={form.rut}
-            onChangeText={(text) => handleChange("rut", text)}
+            onChangeText={(text) => {
+              handleChange("rut", text);
+              setErrorMsg("");
+            }}
             autoCapitalize="none"
           />
           <TextInput
@@ -77,9 +123,15 @@ const Inicio = () => {
             placeholder="Contraseña"
             placeholderTextColor="#E1D9C1"
             value={form.password}
-            onChangeText={(text) => handleChange("password", text)}
+            onChangeText={(text) => {
+              handleChange("password", text);
+              setErrorMsg("");
+            }}
             secureTextEntry
           />
+          {errorMsg ? (
+            <Text style={styles.errorText}>{errorMsg}</Text>
+          ) : null}
           {/* Recover password and create account links */}
           <View
             style={{
@@ -175,6 +227,13 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: "100%",
     marginTop: 8,
+  },
+  errorText: {
+    color: "#FF6B6B",
+    fontSize: 14,
+    marginBottom: 8,
+    alignSelf: "flex-start",
+    fontFamily: "Manrope-SemiBold",
   },
 });
 
