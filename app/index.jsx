@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AuthContext from "../context/AuthProvider";
+import { API_URL } from "../helpers/apiUrl";
 
 const Inicio = () => {
   const { setToken, setUser } = useContext(AuthContext);
@@ -26,10 +27,7 @@ const Inicio = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(
-        "http://192.168.0.9:5000/auth/login",
-        form
-      );
+      const response = await axios.post(`${API_URL}/auth/login`, form);
       if (response.status === 200) {
         alert("Inicio de sesión exitoso");
         console.log(response.data);

@@ -14,6 +14,7 @@ import Navbar from "../../components/Navbar";
 import SensorData from "../../components/SensorData";
 import TopBar from "../../components/TopBar";
 import AuthContext from "../../context/AuthProvider";
+import { API_URL } from "../../helpers/apiUrl";
 
 const Dashboard = () => {
   const [datosSensores, setDatosSensores] = useState([]);
@@ -24,7 +25,7 @@ const Dashboard = () => {
     const getDatosSensores = async () => {
       try {
         const response = await axios.get(
-          `http://192.168.0.9:5000/sensores/obtener-sensores/${idColmena}`,
+          `${API_URL}/sensores/obtener-sensores/${idColmena}`,
           config
         );
         console.log("Datos de sensores:", response.data);

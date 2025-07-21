@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AuthContext from "../../context/AuthProvider";
+import { API_URL } from "../../helpers/apiUrl";
 
 const AgregarColmena = () => {
   const { userToken, userId } = useContext(AuthContext);
@@ -42,7 +43,7 @@ const AgregarColmena = () => {
     }
     try {
       const response = await axios.post(
-        "http://192.168.0.9:5000/colmenas/agregar-colmena",
+        `${API_URL}/colmenas/agregar-colmena`,
         formData,
         {
           headers: {

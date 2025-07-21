@@ -13,6 +13,7 @@ import Colmena from "../../components/Colmena";
 import Navbar from "../../components/Navbar";
 import TopBar from "../../components/TopBar";
 import AuthContext from "../../context/AuthProvider";
+import { API_URL } from "../../helpers/apiUrl";
 
 const Colmenas = () => {
   const { userId, config } = useContext(AuthContext);
@@ -23,7 +24,7 @@ const Colmenas = () => {
     const getDatosColmenas = async () => {
       try {
         const response = await axios.get(
-          `http://192.168.0.9:5000/colmenas/obtener-colmenas/${userId}`,
+          `${API_URL}/colmenas/obtener-colmenas/${userId}`,
           config
         );
         setColmena(response.data);

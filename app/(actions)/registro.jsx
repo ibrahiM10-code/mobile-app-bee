@@ -11,6 +11,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { API_URL } from "../../helpers/apiUrl";
 
 const Register = () => {
   const [form, setForm] = useState({
@@ -31,17 +32,14 @@ const Register = () => {
     console.log("hit");
     try {
       console.log("hola");
-      const response = await axios.post(
-        "http://192.168.0.10:5000/auth/registrar-apicultor",
-        {
-          nombre: form.nombre,
-          rut: form.rut,
-          email: form.email,
-          password: form.password,
-          telefono: form.telefono,
-          direccion: form.direccion,
-        }
-      );
+      const response = await axios.post(`${API_URL}/auth/registrar-apicultor`, {
+        nombre: form.nombre,
+        rut: form.rut,
+        email: form.email,
+        password: form.password,
+        telefono: form.telefono,
+        direccion: form.direccion,
+      });
       console.log(response);
       if (response.status === 201) {
         alert("Registro exitoso");
