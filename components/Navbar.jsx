@@ -30,11 +30,19 @@ const Navbar = () => {
         router.push("/alertas");
       },
     },
+
     {
       label: "Historial Reportes",
       icon: "📄",
       onPress: () => {
         router.push("/reportes");
+      },
+    },
+        {
+      label: "Analizar Audio",
+      icon: "🎤",
+      onPress: () => {
+        router.push("/audio-analyzer");
       },
     },
     {
