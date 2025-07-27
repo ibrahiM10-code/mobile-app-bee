@@ -9,6 +9,8 @@ const AccionesLayout = () => {
       <Stack.Screen name="agregar-colmena" options={{ headerShown: false }} />
       <Stack.Screen name="reportes" options={{ headerShown: false }} />
       <Stack.Screen name="logout" options={{ headerShown: false }} />
+      <Stack.Screen name="audio-analyzer" options={{ headerShown: false }} />
+
     </Stack>
   );
 };
