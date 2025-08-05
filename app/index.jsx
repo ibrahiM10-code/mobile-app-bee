@@ -81,7 +81,7 @@ const Inicio = () => {
         );
         return;
       } else {
-        setErrorMsg("Error al iniciar sesión. Intenta nuevamente más tarde.");
+        setErrorMsg("Error al iniciar sesión.");
         return;
       }
     }

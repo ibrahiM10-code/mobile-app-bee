@@ -36,5 +36,7 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
-app-example
+# Hide helpers/apiUrl.js
 helpers/apiUrl.js
+
+.gitignore

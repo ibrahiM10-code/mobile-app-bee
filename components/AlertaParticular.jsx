@@ -1,15 +1,38 @@
-import { router } from "expo-router";
+import axios from "axios";
+import { useContext } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import AuthContext from "../context/AuthProvider";
+import { API_URL } from "../helpers/apiUrl";
 
-const Alerta = ({
+const AlertaParticular = ({
   fechaAlerta,
   tituloAlerta,
   descAlerta,
   idColmena,
+  idAlerta,
+  estadoAlerta,
   imgAlerta,
   tipoAlerta,
+  actualizarEstadoAlerta,
 }) => {
+  const { config } = useContext(AuthContext);
+  const cambiarEstado = async (nuevoEstado) => {
+    try {
+      const response = await axios.put(
+        `${API_URL}/alertas/actualizar-alerta/${idAlerta}`,
+        { estado_alerta: nuevoEstado },
+        config
+      );
+      console.log("Alerta actualizada:", response.data);
+      if (actualizarEstadoAlerta) {
+        actualizarEstadoAlerta(idAlerta, nuevoEstado); // Update parent state
+      }
+    } catch (error) {
+      console.error("Error updating alert:", error);
+    }
+  };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View>
@@ -54,22 +77,39 @@ const Alerta = ({
               {descAlerta}
             </Text>
           </View>
-
-          <TouchableOpacity
-            style={{ alignSelf: "center" }}
-            onPress={() => router.push(`/dashboardColmena/${idColmena}`)}
-          >
-            <Text
-              style={{
-                fontFamily: "Manrope-Bold",
-                fontSize: 14,
-                textAlign: "center",
-                color: "#E1D9C1",
-              }}
+          {estadoAlerta === "pendiente" && tipoAlerta === "advertencia" ? (
+            <TouchableOpacity
+              style={{ alignSelf: "center" }}
+              onPress={() => cambiarEstado("resuelta")}
             >
-              Ver{"\n"}colmena
-            </Text>
-          </TouchableOpacity>
+              <Text
+                style={{
+                  fontFamily: "Manrope-Bold",
+                  fontSize: 14,
+                  textAlign: "center",
+                  color: "#E1D9C1",
+                }}
+              >
+                Marcar{"\n"}como resuelta
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={{ alignSelf: "center" }}
+              onPress={() => cambiarEstado("resuelta")}
+            >
+              <Text
+                style={{
+                  fontFamily: "Manrope-Bold",
+                  fontSize: 14,
+                  textAlign: "center",
+                  color: "#E1D9C1",
+                }}
+              >
+                Confirmar{"\n"}lectura
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </SafeAreaView>
@@ -96,4 +136,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Alerta;
+export default AlertaParticular;

@@ -1,6 +1,6 @@
 import axios from "axios";
-import { router, useLocalSearchParams } from "expo-router";
-import { useContext, useEffect, useState } from "react";
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
+import { useCallback, useContext, useEffect, useState } from "react";
 import {
   Image,
   ScrollView,
@@ -18,6 +18,8 @@ import { API_URL } from "../../helpers/apiUrl";
 
 const Dashboard = () => {
   const [datosSensores, setDatosSensores] = useState([]);
+  const [alertasColmena, setAlertasColmena] = useState([]);
+  const [isAlerta, setIsAlerta] = useState(false);
   const { config } = useContext(AuthContext);
   const { idColmena } = useLocalSearchParams();
 
@@ -34,12 +36,28 @@ const Dashboard = () => {
         console.error("Error fetching sensor data:", error);
       }
     };
-
     getDatosSensores();
   }, [config, idColmena]);
 
-  // Simulate alerts state (replace with real logic as needed)
-  const hasAlerts = false; // Change to true to test "There are alerts"
+  useFocusEffect(
+    useCallback(() => {
+      const getAlertasColmena = async () => {
+        try {
+          const response = await axios.get(
+            `${API_URL}/alertas/obtener-alertas-particular/${idColmena}`,
+            config
+          );
+          const hasAlerts = response.data.some(
+            (alerta) => alerta.estado_alerta === "pendiente"
+          );
+          setIsAlerta(hasAlerts);
+        } catch (error) {
+          console.error("Error fetching alert data:", error);
+        }
+      };
+      getAlertasColmena();
+    }, [config, idColmena])
+  );
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#E1D9C1" }}>
@@ -69,21 +87,21 @@ const Dashboard = () => {
             style={{
               fontFamily: "Manrope-Bold",
               fontSize: 14,
-              color: hasAlerts ? "#222A2A" : "#E1D9C1",
-              backgroundColor: hasAlerts ? "#F39005" : "#222A2A",
-              borderColor: hasAlerts ? "#222A2A" : "#E1D9C1",
+              color: isAlerta ? "#222A2A" : "#E1D9C1",
+              backgroundColor: isAlerta ? "#F39005" : "#222A2A",
+              borderColor: isAlerta ? "#222A2A" : "#E1D9C1",
               left: 5,
               paddingVertical: 5,
               paddingHorizontal: 20,
               borderRadius: 20,
             }}
           >
-            {hasAlerts ? "Revisa las alertas!" : "Todo en orden"}
+            {isAlerta ? "Revisa las alertas!" : "Todo en orden"}
           </Text>
           <TouchableOpacity
             style={{
-              backgroundColor: hasAlerts ? "#F39005" : "#222A2A",
-              borderColor: hasAlerts ? "#222A2A" : "#E1D9C1",
+              backgroundColor: isAlerta ? "#F39005" : "#222A2A",
+              borderColor: isAlerta ? "#222A2A" : "#E1D9C1",
               paddingVertical: 8,
               paddingHorizontal: 16,
               borderRadius: "50%",
@@ -93,7 +111,7 @@ const Dashboard = () => {
               alignItems: "center",
             }}
             onPress={() => {
-              router.push("/alertasIndividuales/[idColmenaAlerta]");
+              router.push("/alertasIndividuales/" + idColmena);
             }}
           >
             <Text style={{ fontSize: 15 }}>🔔</Text>
