@@ -1,5 +1,7 @@
 import axios from "axios";
+import * as FileSystem from "expo-file-system";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
+import * as Sharing from "expo-sharing";
 import { useCallback, useContext, useEffect, useState } from "react";
 import {
   Image,
@@ -18,7 +20,7 @@ import { API_URL } from "../../helpers/apiUrl";
 
 const Dashboard = () => {
   const [datosSensores, setDatosSensores] = useState([]);
-  const [alertasColmena, setAlertasColmena] = useState([]);
+  const [descEstado, setDescEstado] = useState([]);
   const [isAlerta, setIsAlerta] = useState(false);
   const { config } = useContext(AuthContext);
   const { idColmena } = useLocalSearchParams();
@@ -38,6 +40,64 @@ const Dashboard = () => {
     };
     getDatosSensores();
   }, [config, idColmena]);
+
+  // Agregar efecto para obtener descripcion de reporte.
+  useEffect(() => {
+    const getDescripcionColmena = async () => {
+      try {
+        const response = await axios.get(
+          `${API_URL}/reportes/descripcion-colmena/${idColmena}`,
+          config
+        );
+        console.log("Descripción de la colmena:", response.data);
+        setDescEstado(response.data);
+      } catch (error) {
+        console.error("Error al obtener la descripción de la colmena:", error);
+      }
+    };
+    getDescripcionColmena();
+  }, [config, idColmena]);
+
+  const openPDF = async (fileUri) => {
+    try {
+      const isAvailable = await Sharing.isAvailableAsync();
+      if (!isAvailable) {
+        alert("No hay apps disponibles para abrir el PDF.");
+        return;
+      }
+      await Sharing.shareAsync(fileUri, {
+        mimeType: "application/pdf",
+      });
+    } catch (error) {
+      console.error("Error sharing PDF:", error);
+      alert("No se pudo abrir el PDF.");
+    }
+  };
+  // Agregar funcion para descargar reporte.
+  const descargarReporte = async (colmenaId, config) => {
+    try {
+      const url = `${API_URL}/reportes/obtener-reporte/${colmenaId}`;
+      console.log(url);
+      const fecha = new Date();
+      const fechaFormateada = fecha.toISOString().split("T")[0];
+      const fileUri =
+        FileSystem.documentDirectory +
+        `reporte_${colmenaId}_${fechaFormateada}.pdf`;
+
+      const response = await FileSystem.downloadAsync(url, fileUri, {
+        headers: config.headers,
+      });
+      console.log(response);
+      const fileInfo = await FileSystem.getInfoAsync(response.uri);
+      if (!fileInfo.exists || fileInfo.size === 0) {
+        alert("El archivo PDF no se descargó correctamente.");
+        return;
+      }
+      openPDF(response.uri);
+    } catch (error) {
+      console.error("Error downloading report:", error);
+    }
+  };
 
   useFocusEffect(
     useCallback(() => {
@@ -193,10 +253,8 @@ const Dashboard = () => {
                 width: "16%",
               }}
             >
-              La colmena presenta datos óptimos en todas las áreas sensorizadas,
-              su peso indica la posibilidad de extracción de miel, su
-              temperatura es óptima, al igual que la humedad y el sonido interno
-              asegura la presencia de su abeja reina.
+              {descEstado.descripcion ||
+                "No hay descripción disponible por el momento."}
             </Text>
             <TouchableOpacity
               style={{
@@ -208,6 +266,7 @@ const Dashboard = () => {
                 paddingHorizontal: 10,
                 borderRadius: 5,
               }}
+              onPress={() => descargarReporte(idColmena, config)}
             >
               <Text style={{ fontFamily: "Manrope-Bold", color: "#E1D9C1" }}>
                 Descargar reporte
