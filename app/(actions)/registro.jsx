@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -125,13 +126,20 @@ const Register = () => {
       });
       console.log(response);
       if (response.status === 201) {
-        alert("Registro exitoso");
+        ToastAndroid.show("Registro exitoso", ToastAndroid.SHORT);
+        // alert("Registro exitoso");
         router.push("/login");
-      } else {
-        alert("Error al registrar, por favor intente nuevamente.");
+      } else if (response.status === 400) {
+        ToastAndroid.show(
+          "Error al registrar, por favor intente nuevamente.",
+          ToastAndroid.SHORT
+        );
+        // alert("Error al registrar, por favor intente nuevamente.");
       }
     } catch (error) {
-      console.error("Error during registration:", error);
+      if (error.status === 500) {
+        console.error("Error during registration:", error);
+      }
     }
   };
 

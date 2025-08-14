@@ -20,8 +20,12 @@ const SeccionAlertas = () => {
           `${API_URL}/alertas/obtener-alertas-apicultor/${userId}`,
           config
         );
-        console.log("Alertas encontradas:", response.data);
-        setAlertas(response.data);
+        if (response.status === 200) {
+          console.log("Alertas encontradas:", response.data);
+          setAlertas(response.data);
+        } else if (response.status === 404) {
+          console.log("No hay alertas para mostrar.");
+        }
       } catch (error) {
         console.error("Error fetching alert data:", error);
       }

@@ -32,16 +32,21 @@ const Dashboard = () => {
           `${API_URL}/sensores/obtener-sensores/${idColmena}`,
           config
         );
-        console.log("Datos de sensores:", response.data);
-        setDatosSensores(response.data[0]);
+        if (response.data && response.status === 200) {
+          console.log("Datos de sensores:", response.data);
+          setDatosSensores(response.data[0]);
+        } else if (response.status === 404) {
+          console.log("Este apicultor no tiene colmenas registradas.");
+        }
       } catch (error) {
-        console.error("Error fetching sensor data:", error);
+        if (error.status === 500) {
+          console.error("Error fetching sensor data:", error);
+        }
       }
     };
     getDatosSensores();
   }, [config, idColmena]);
 
-  // Agregar efecto para obtener descripcion de reporte.
   useEffect(() => {
     const getDescripcionColmena = async () => {
       try {
@@ -49,10 +54,21 @@ const Dashboard = () => {
           `${API_URL}/reportes/descripcion-colmena/${idColmena}`,
           config
         );
-        console.log("Descripción de la colmena:", response.data);
-        setDescEstado(response.data);
+        if (response.status === 200) {
+          console.log("Descripción de la colmena:", response.data);
+          setDescEstado(response.data);
+        } else if (response.status === 404) {
+          console.log(
+            "La colmena no cuenta con los datos suficientes para generar una descripción."
+          );
+        }
       } catch (error) {
-        console.error("Error al obtener la descripción de la colmena:", error);
+        if (error.status === 500) {
+          console.error(
+            "Error al obtener la descripción de la colmena:",
+            error
+          );
+        }
       }
     };
     getDescripcionColmena();
@@ -60,8 +76,8 @@ const Dashboard = () => {
 
   const openPDF = async (fileUri) => {
     try {
-      const isAvailable = await Sharing.isAvailableAsync();
-      if (!isAvailable) {
+      const disponible = await Sharing.isAvailableAsync();
+      if (!disponible) {
         alert("No hay apps disponibles para abrir el PDF.");
         return;
       }
@@ -73,11 +89,10 @@ const Dashboard = () => {
       alert("No se pudo abrir el PDF.");
     }
   };
-  // Agregar funcion para descargar reporte.
+
   const descargarReporte = async (colmenaId, config) => {
     try {
       const url = `${API_URL}/reportes/obtener-reporte/${colmenaId}`;
-      console.log(url);
       const fecha = new Date();
       const fechaFormateada = fecha.toISOString().split("T")[0];
       const fileUri =
@@ -87,7 +102,6 @@ const Dashboard = () => {
       const response = await FileSystem.downloadAsync(url, fileUri, {
         headers: config.headers,
       });
-      console.log(response);
       const fileInfo = await FileSystem.getInfoAsync(response.uri);
       if (!fileInfo.exists || fileInfo.size === 0) {
         alert("El archivo PDF no se descargó correctamente.");
@@ -107,12 +121,18 @@ const Dashboard = () => {
             `${API_URL}/alertas/obtener-alertas-particular/${idColmena}`,
             config
           );
-          const hasAlerts = response.data.some(
-            (alerta) => alerta.estado_alerta === "pendiente"
-          );
-          setIsAlerta(hasAlerts);
+          if (response.status === 200) {
+            const hasAlerts = response.data.some(
+              (alerta) => alerta.estado_alerta === "pendiente"
+            );
+            setIsAlerta(hasAlerts);
+          } else if (response.status === 404) {
+            console.log("Esta colmena no tiene alertas asociadas.");
+          }
         } catch (error) {
-          console.error("Error fetching alert data:", error);
+          if (error.status === 500) {
+            console.error("Error fetching alert data:", error);
+          }
         }
       };
       getAlertasColmena();

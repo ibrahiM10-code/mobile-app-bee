@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -66,7 +67,8 @@ const Inicio = () => {
       const response = await axios.post(`${API_URL}/auth/login`, form);
       if (response.status === 200) {
         setErrorMsg("");
-        alert("Inicio de sesión exitoso");
+        ToastAndroid.show("Inicio de sesión exitoso", ToastAndroid.SHORT);
+        // alert("Inicio de sesión exitoso");
         console.log(response.data);
         setToken(response.data[0].token);
         setUser(response.data[0].user);
@@ -75,7 +77,7 @@ const Inicio = () => {
         setErrorMsg("Error al iniciar sesión, por favor intente nuevamente.");
       }
     } catch (error) {
-      if (error.response && error.response.status === 401) {
+      if (error.status === 401) {
         setErrorMsg(
           "RUT o contraseña incorrectos. Por favor, inténtalo de nuevo."
         );

@@ -27,10 +27,17 @@ const Colmenas = () => {
           `${API_URL}/colmenas/obtener-colmenas/${userId}`,
           config
         );
-        setColmena(response.data);
-        console.log(response.data);
+        if (response.status === 200) {
+          setColmena(response.data);
+        }
       } catch (error) {
-        console.error(error);
+        if (error.response === 400) {
+          console.error(
+            "Datos necesarios para agregar colmena no han sido ingresados."
+          );
+        } else if (error.response === 500) {
+          console.error(error);
+        }
       }
     };
     getDatosColmenas();

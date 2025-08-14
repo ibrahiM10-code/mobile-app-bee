@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -75,11 +76,19 @@ const AgregarColmena = () => {
           },
         }
       );
-      console.log("hola");
-      console.log(response.data);
-      router.push("/colmenas");
+      if (response.data && response.status === 201) {
+        ToastAndroid.show("Colmena agregada exitosamente", ToastAndroid.SHORT);
+        router.push("/colmenas");
+      } else if (response.status === 400) {
+        ToastAndroid.show(
+          "Error al agregar colmena. Intente nuevamente.",
+          ToastAndroid.SHORT
+        );
+      }
     } catch (error) {
-      console.error("Error al agregar colmena:", error);
+      if (error.status === 500) {
+        console.error("Error al agregar colmena:", error);
+      }
     }
   };
 

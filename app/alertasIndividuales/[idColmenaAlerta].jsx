@@ -22,10 +22,16 @@ const SeccionAlertas = () => {
           `${API_URL}/alertas/obtener-alertas-particular/${idColmenaAlerta}`,
           config
         );
-        console.log("Alertas encontradas:", response.data);
-        setAlertasColmena(response.data);
+        if (response.data && response.status === 200) {
+          console.log("Alertas encontradas:", response.data);
+          setAlertasColmena(response.data);
+        } else if (response.status === 404) {
+          console.log("No hay alertas para mostrar.");
+        }
       } catch (error) {
-        console.error("Error fetching alert data:", error);
+        if (error.status === 500) {
+          console.error("Error fetching alert data:", error);
+        }
       }
     };
     getAlertasColmena();
