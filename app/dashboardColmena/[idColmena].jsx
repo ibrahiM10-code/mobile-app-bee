@@ -22,7 +22,7 @@ const Dashboard = () => {
   const [datosSensores, setDatosSensores] = useState([]);
   const [descEstado, setDescEstado] = useState([]);
   const [isAlerta, setIsAlerta] = useState(false);
-  const { config } = useContext(AuthContext);
+  const { config, userId } = useContext(AuthContext);
   const { idColmena } = useLocalSearchParams();
 
   useEffect(() => {
@@ -90,9 +90,10 @@ const Dashboard = () => {
     }
   };
 
-  const descargarReporte = async (colmenaId, config) => {
+  const descargarReporte = async (colmenaId, config, userId) => {
     try {
-      const url = `${API_URL}/reportes/obtener-reporte/${colmenaId}`;
+      const url = `${API_URL}/reportes/obtener-reporte/${colmenaId}/${userId}`;
+      console.log(url);
       const fecha = new Date();
       const fechaFormateada = fecha.toISOString().split("T")[0];
       const fileUri =
@@ -286,7 +287,7 @@ const Dashboard = () => {
                 paddingHorizontal: 10,
                 borderRadius: 5,
               }}
-              onPress={() => descargarReporte(idColmena, config)}
+              onPress={() => descargarReporte(idColmena, config, userId)}
             >
               <Text style={{ fontFamily: "Manrope-Bold", color: "#E1D9C1" }}>
                 Descargar reporte

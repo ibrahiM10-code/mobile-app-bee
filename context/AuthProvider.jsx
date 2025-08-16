@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
         const storedToken = await AsyncStorage.getItem("token");
         const userId = await AsyncStorage.getItem("userId");
         if (storedToken) setUserToken(storedToken);
-        if (userId) setUserId({ id: userId });
+        if (userId) setUserId(userId);
       } catch (error) {
         console.error("Error loading token:", error);
       }

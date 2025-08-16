@@ -1,12 +1,20 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-const TarjetaReporte = ({ titulo, descripcion, onPress }) => {
+const TarjetaReporte = ({
+  titulo,
+  onPress,
+  nombreColmena,
+  nombreApiario,
+  fotoColmena,
+}) => {
   return (
     <View style={styles.card}>
       <Text style={styles.title}>{titulo}</Text>
-      <Text style={styles.description}>{descripcion}</Text>
+      <Text style={styles.description}>
+        {nombreColmena} - {nombreApiario}
+      </Text>
       <Image
-        source={require("../assets/images/colmena.jpg")}
+        source={fotoColmena}
         style={{
           borderRadius: 5,
           resizeMode: "cover",
