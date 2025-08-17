@@ -1,7 +1,5 @@
 import axios from "axios";
-import * as FileSystem from "expo-file-system";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
-import * as Sharing from "expo-sharing";
 import { useCallback, useContext, useEffect, useState } from "react";
 import {
   Image,
@@ -17,6 +15,7 @@ import SensorData from "../../components/SensorData";
 import TopBar from "../../components/TopBar";
 import AuthContext from "../../context/AuthProvider";
 import { API_URL } from "../../helpers/apiUrl";
+import descargarReporte from "../../helpers/descargarReporte";
 
 const Dashboard = () => {
   const [datosSensores, setDatosSensores] = useState([]);
@@ -55,7 +54,6 @@ const Dashboard = () => {
           config
         );
         if (response.status === 200) {
-          console.log("Descripción de la colmena:", response.data);
           setDescEstado(response.data);
         } else if (response.status === 404) {
           console.log(
@@ -73,46 +71,6 @@ const Dashboard = () => {
     };
     getDescripcionColmena();
   }, [config, idColmena]);
-
-  const openPDF = async (fileUri) => {
-    try {
-      const disponible = await Sharing.isAvailableAsync();
-      if (!disponible) {
-        alert("No hay apps disponibles para abrir el PDF.");
-        return;
-      }
-      await Sharing.shareAsync(fileUri, {
-        mimeType: "application/pdf",
-      });
-    } catch (error) {
-      console.error("Error sharing PDF:", error);
-      alert("No se pudo abrir el PDF.");
-    }
-  };
-
-  const descargarReporte = async (colmenaId, config, userId) => {
-    try {
-      const url = `${API_URL}/reportes/obtener-reporte/${colmenaId}/${userId}`;
-      console.log(url);
-      const fecha = new Date();
-      const fechaFormateada = fecha.toISOString().split("T")[0];
-      const fileUri =
-        FileSystem.documentDirectory +
-        `reporte_${colmenaId}_${fechaFormateada}.pdf`;
-
-      const response = await FileSystem.downloadAsync(url, fileUri, {
-        headers: config.headers,
-      });
-      const fileInfo = await FileSystem.getInfoAsync(response.uri);
-      if (!fileInfo.exists || fileInfo.size === 0) {
-        alert("El archivo PDF no se descargó correctamente.");
-        return;
-      }
-      openPDF(response.uri);
-    } catch (error) {
-      console.error("Error downloading report:", error);
-    }
-  };
 
   useFocusEffect(
     useCallback(() => {
@@ -148,7 +106,6 @@ const Dashboard = () => {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
-        {/* Alerts Row */}
         <View
           style={{
             position: "absolute",
@@ -271,7 +228,7 @@ const Dashboard = () => {
               style={{
                 fontFamily: "Manrope-Regular",
                 fontSize: 10,
-                width: "16%",
+                width: descEstado.descripcion ? "15%" : "70%",
               }}
             >
               {descEstado.descripcion ||
@@ -287,7 +244,9 @@ const Dashboard = () => {
                 paddingHorizontal: 10,
                 borderRadius: 5,
               }}
-              onPress={() => descargarReporte(idColmena, config, userId)}
+              onPress={() =>
+                descargarReporte(API_URL, idColmena, config, userId)
+              }
             >
               <Text style={{ fontFamily: "Manrope-Bold", color: "#E1D9C1" }}>
                 Descargar reporte

@@ -124,80 +124,83 @@ const Reportes = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#E1D9C1" }}>
       <TopBar />
-      <View style={{ padding: 16 }}>
-        <Text style={{ marginBottom: 8 }}>Selecciona una fecha:</Text>
-        <TouchableOpacity
-          style={{
-            borderWidth: 1,
-            borderColor: "#ccc",
-            borderRadius: 6,
-            padding: 12,
-            marginBottom: 16,
-            backgroundColor: "#fff",
-          }}
-          onPress={() => setShowDatePicker(true)}
-        >
-          <Text>
-            {selectedDate
-              ? selectedDate.toLocaleDateString()
-              : "Elige una fecha"}
-          </Text>
-        </TouchableOpacity>
-        {showDatePicker && (
-          <DateTimePicker
-            value={selectedDate}
-            mode="date"
-            display={Platform.OS === "ios" ? "spinner" : "default"}
-            onChange={(_, date) => {
-              setShowDatePicker(false);
-              if (date) setSelectedDate(date);
-            }}
-            timeZoneName={"America/Santiago"}
-            locale="es-ES"
-          />
-        )}
-        <Text style={{ marginBottom: 8 }}>Selecciona una opción:</Text>
-        <View
-          style={{
-            borderWidth: 1,
-            borderColor: "#ccc",
-            borderRadius: 6,
-            marginBottom: 16,
-            backgroundColor: "#fff",
-          }}
-        >
-          <Picker
-            selectedValue={selectedOption}
-            onValueChange={(itemValue) => setSelectedOption(itemValue)}
-          >
-            <Picker.Item label="Selecciona una opción..." value="" />
-            {options.map((opt) => (
-              <Picker.Item
-                key={opt.value}
-                label={opt.label}
-                value={opt.value}
-              />
-            ))}
-          </Picker>
-        </View>
-        <View style={{ padding: 16 }}>
+      <View style={{ flexDirection: "row", alignItems: "center", padding: 16 }}>
+        <View style={{ flex: 1, marginRight: 8 }}>
+          <Text style={{ marginBottom: 4 }}>Fecha:</Text>
           <TouchableOpacity
             style={{
-              backgroundColor: "#8B7B5E",
-              padding: 12,
+              borderWidth: 1,
+              borderColor: "#222A2A",
               borderRadius: 6,
-              alignItems: "center",
-              marginBottom: 16,
-              opacity: selectedOption && selectedDate ? 1 : 0.5,
+              padding: 10,
+              backgroundColor: "transparent",
             }}
-            disabled={!selectedOption || !selectedDate}
-            onPress={() => buscarReporte(selectedOption, selectedDate)}
+            onPress={() => setShowDatePicker(true)}
           >
-            <Text style={{ color: "#fff", fontWeight: "bold" }}>
-              Buscar reporte
+            <Text>
+              {selectedDate
+                ? selectedDate.toLocaleDateString()
+                : "Elige una fecha"}
             </Text>
           </TouchableOpacity>
+          {showDatePicker && (
+            <DateTimePicker
+              value={selectedDate}
+              mode="date"
+              display={Platform.OS === "ios" ? "spinner" : "default"}
+              onChange={(_, date) => {
+                setShowDatePicker(false);
+                if (date) setSelectedDate(date);
+              }}
+              timeZoneName={"America/Santiago"}
+              locale="es-ES"
+            />
+          )}
         </View>
+        <View style={{ flex: 1, marginLeft: 8 }}>
+          <Text style={{ marginBottom: 4 }}>Colmena:</Text>
+          <View
+            style={{
+              borderWidth: 1,
+              borderColor: "#222A2A",
+              borderRadius: 6,
+              backgroundColor: "transparent",
+              height: 40,
+            }}
+          >
+            <Picker
+              selectedValue={selectedOption}
+              onValueChange={(itemValue) => setSelectedOption(itemValue)}
+              style={{ width: "100%", bottom: 5 }}
+            >
+              <Picker.Item label="Selecciona una opción..." value="" />
+              {options.map((opt) => (
+                <Picker.Item
+                  key={opt.value}
+                  label={opt.label}
+                  value={opt.value}
+                />
+              ))}
+            </Picker>
+          </View>
+        </View>
+      </View>
+      <View style={{ paddingHorizontal: 16, marginBottom: 8 }}>
+        <TouchableOpacity
+          style={{
+            backgroundColor: "#222A2A",
+            padding: 12,
+            borderRadius: 6,
+            alignItems: "center",
+            opacity: selectedOption && selectedDate ? 1 : 0.5,
+          }}
+          disabled={!selectedOption || !selectedDate}
+          onPress={() => buscarReporte(selectedOption, selectedDate)}
+        >
+          <Text style={{ color: "#E1D9C1", fontWeight: "bold" }}>
+            Buscar reporte
+          </Text>
+        </TouchableOpacity>
       </View>
       <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 80 }}>
         {reportes.map((reporte, idx) => (
