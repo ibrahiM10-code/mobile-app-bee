@@ -10,12 +10,13 @@ import { API_URL } from "../../helpers/apiUrl";
 import { formatFecha } from "../../helpers/formateaFecha";
 
 const SeccionAlertas = () => {
-  const { config, userId } = useContext(AuthContext);
+  const { config, userId, userToken } = useContext(AuthContext);
   const [alertas, setAlertas] = useState([]);
 
   useEffect(() => {
     const getAlertas = async () => {
       try {
+        if (!userId || !userToken) return;
         const response = await axios.get(
           `${API_URL}/alertas/obtener-alertas-apicultor/${userId}`,
           config
@@ -50,17 +51,20 @@ const SeccionAlertas = () => {
       <View style={{ height: "100%" }}>
         <FlatList
           data={alertas}
-          renderItem={({ item }) => (
-            <Alerta
-              fechaAlerta={formatFecha(item.fecha)}
-              tituloAlerta={item.titulo_alerta}
-              descAlerta={item.descripcion_alerta}
-              imgAlerta={""}
-              tipoAlerta={item.tipo_alerta}
-              idColmena={item.colmena_id}
-              key={item._id}
-            />
-          )}
+          renderItem={({ item }) => {
+            if (item.estado_alerta === "resuelta") return null;
+            return (
+              <Alerta
+                fechaAlerta={formatFecha(item.fecha)}
+                tituloAlerta={item.titulo_alerta}
+                descAlerta={item.descripcion_alerta}
+                imgAlerta={""}
+                tipoAlerta={item.tipo_alerta}
+                idColmena={item.colmena_id}
+                key={item._id}
+              />
+            );
+          }}
           keyExtractor={(item) => item._id}
           contentContainerStyle={{
             paddingHorizontal: 16,

@@ -16,8 +16,9 @@ const AlertaParticular = ({
   tipoAlerta,
   actualizarEstadoAlerta,
 }) => {
-  const { config } = useContext(AuthContext);
+  const { config, userId, userToken } = useContext(AuthContext);
   const cambiarEstado = async (nuevoEstado) => {
+    if (!userId || !userToken) return;
     try {
       const response = await axios.put(
         `${API_URL}/alertas/actualizar-alerta/${idAlerta}`,
@@ -106,7 +107,7 @@ const AlertaParticular = ({
                   color: "#E1D9C1",
                 }}
               >
-                Confirmar{"\n"}lectura
+                Marcar{"\n"}como vista
               </Text>
             </TouchableOpacity>
           )}

@@ -22,7 +22,7 @@ import { formatFecha } from "../../helpers/formateaFecha";
 
 const Reportes = () => {
   const [reportes, setReportes] = useState([]);
-  const { config, userId } = useContext(AuthContext);
+  const { config, userId, userToken } = useContext(AuthContext);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedOption, setSelectedOption] = useState("");
@@ -30,6 +30,7 @@ const Reportes = () => {
   useEffect(() => {
     const cargaReportes = async () => {
       try {
+        if (!userId || !userToken) return;
         const response = await axios.get(
           `${API_URL}/reportes/reportes-colmenas/${userId}`,
           config

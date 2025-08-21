@@ -11,12 +11,13 @@ import { API_URL } from "../../helpers/apiUrl";
 import { formatFecha } from "../../helpers/formateaFecha";
 
 const SeccionAlertas = () => {
-  const { config } = useContext(AuthContext);
+  const { config, userId, userToken } = useContext(AuthContext);
   const { idColmenaAlerta } = useLocalSearchParams();
   const [alertasColmena, setAlertasColmena] = useState([]);
 
   useEffect(() => {
     const getAlertasColmena = async () => {
+      if (!userId || !userToken) return;
       try {
         const response = await axios.get(
           `${API_URL}/alertas/obtener-alertas-particular/${idColmenaAlerta}`,

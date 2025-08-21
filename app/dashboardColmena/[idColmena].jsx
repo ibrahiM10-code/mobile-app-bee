@@ -21,12 +21,13 @@ const Dashboard = () => {
   const [datosSensores, setDatosSensores] = useState([]);
   const [descEstado, setDescEstado] = useState([]);
   const [isAlerta, setIsAlerta] = useState(false);
-  const { config, userId } = useContext(AuthContext);
+  const { config, userId, userToken } = useContext(AuthContext);
   const { idColmena } = useLocalSearchParams();
 
   useEffect(() => {
     const getDatosSensores = async () => {
       try {
+        if (!userId || !userToken) return;
         const response = await axios.get(
           `${API_URL}/sensores/obtener-sensores/${idColmena}`,
           config
@@ -49,6 +50,7 @@ const Dashboard = () => {
   useEffect(() => {
     const getDescripcionColmena = async () => {
       try {
+        if (!userId || !userToken) return;
         const response = await axios.get(
           `${API_URL}/reportes/descripcion-colmena/${idColmena}`,
           config
@@ -76,6 +78,7 @@ const Dashboard = () => {
     useCallback(() => {
       const getAlertasColmena = async () => {
         try {
+          if (!userId || !userToken) return;
           const response = await axios.get(
             `${API_URL}/alertas/obtener-alertas-particular/${idColmena}`,
             config

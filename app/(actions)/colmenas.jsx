@@ -16,11 +16,11 @@ import AuthContext from "../../context/AuthProvider";
 import { API_URL } from "../../helpers/apiUrl";
 
 const Colmenas = () => {
-  const { userId, config } = useContext(AuthContext);
+  const { userId, config, userToken } = useContext(AuthContext);
   const [colmena, setColmena] = useState(null);
 
   useEffect(() => {
-    if (!userId) return;
+    if (!userId || !userToken) return;
     const getDatosColmenas = async () => {
       try {
         const response = await axios.get(
@@ -78,7 +78,7 @@ const Colmenas = () => {
               key={item._id}
             />
           )}
-          keyExtractor={(item) => item.idColmena}
+          keyExtractor={(item) => item._id}
           contentContainerStyle={{
             paddingHorizontal: 16,
           }}
