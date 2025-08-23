@@ -5,6 +5,7 @@ import {
   FlatList,
   StyleSheet,
   Text,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -29,13 +30,15 @@ const Colmenas = () => {
         );
         if (response.status === 200) {
           setColmena(response.data);
+        } else if (response.status === 204) {
+          ToastAndroid.show(
+            "No hay colmenas para mostrar.",
+            ToastAndroid.SHORT
+          );
+          setColmena([]);
         }
       } catch (error) {
-        if (error.response === 400) {
-          console.error(
-            "Datos necesarios para agregar colmena no han sido ingresados."
-          );
-        } else if (error.response === 500) {
+        if (error.response === 500) {
           console.error(error);
         }
       }

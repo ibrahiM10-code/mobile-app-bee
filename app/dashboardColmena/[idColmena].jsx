@@ -37,6 +37,7 @@ const Dashboard = () => {
           setDatosSensores(response.data[0]);
         } else if (response.status === 404) {
           console.log("Este apicultor no tiene colmenas registradas.");
+          setDatosSensores([]);
         }
       } catch (error) {
         if (error.status === 500) {
@@ -57,13 +58,14 @@ const Dashboard = () => {
         );
         if (response.status === 200) {
           setDescEstado(response.data);
-        } else if (response.status === 404) {
+        } else if (response.status === 500) {
           console.log(
             "La colmena no cuenta con los datos suficientes para generar una descripción."
           );
         }
       } catch (error) {
         if (error.status === 500) {
+          setDescEstado([]);
           console.error(
             "Error al obtener la descripción de la colmena:",
             error
@@ -88,7 +90,7 @@ const Dashboard = () => {
               (alerta) => alerta.estado_alerta === "pendiente"
             );
             setIsAlerta(hasAlerts);
-          } else if (response.status === 404) {
+          } else if (response.status === 204) {
             console.log("Esta colmena no tiene alertas asociadas.");
           }
         } catch (error) {
@@ -237,24 +239,26 @@ const Dashboard = () => {
               {descEstado.descripcion ||
                 "No hay descripción disponible por el momento."}
             </Text>
-            <TouchableOpacity
-              style={{
-                backgroundColor: "#222A2A",
-                top: 10,
-                maxWidth: "100%",
-                alignSelf: "flex-start",
-                paddingVertical: 7,
-                paddingHorizontal: 10,
-                borderRadius: 5,
-              }}
-              onPress={() =>
-                descargarReporte(API_URL, idColmena, config, userId)
-              }
-            >
-              <Text style={{ fontFamily: "Manrope-Bold", color: "#E1D9C1" }}>
-                Descargar reporte
-              </Text>
-            </TouchableOpacity>
+            {descEstado.descripcion && (
+              <TouchableOpacity
+                style={{
+                  backgroundColor: "#222A2A",
+                  top: 10,
+                  maxWidth: "100%",
+                  alignSelf: "flex-start",
+                  paddingVertical: 7,
+                  paddingHorizontal: 10,
+                  borderRadius: 5,
+                }}
+                onPress={() =>
+                  descargarReporte(API_URL, idColmena, config, userId)
+                }
+              >
+                <Text style={{ fontFamily: "Manrope-Bold", color: "#E1D9C1" }}>
+                  Descargar reporte
+                </Text>
+              </TouchableOpacity>
+            )}
           </View>
         </View>
       </ScrollView>

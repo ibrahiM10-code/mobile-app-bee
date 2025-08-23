@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { FlatList, Text, View } from "react-native";
+import { FlatList, Text, ToastAndroid, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Alerta from "../../components/Alerta";
 import Navbar from "../../components/Navbar";
@@ -24,8 +24,9 @@ const SeccionAlertas = () => {
         if (response.status === 200) {
           console.log("Alertas encontradas:", response.data);
           setAlertas(response.data);
-        } else if (response.status === 404) {
-          console.log("No hay alertas para mostrar.");
+        } else if (response.status === 204) {
+          ToastAndroid.show("No hay alertas para mostrar.", ToastAndroid.SHORT);
+          setAlertas([]);
         }
       } catch (error) {
         console.error("Error fetching alert data:", error);

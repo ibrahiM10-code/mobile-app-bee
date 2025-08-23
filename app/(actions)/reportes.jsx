@@ -37,8 +37,9 @@ const Reportes = () => {
         );
         if (response.status === 200) {
           setReportes(response.data);
-        } else if (response.status === 404) {
-          console.log("No se encontraron reportes.");
+        } else if (response.status === 204) {
+          ToastAndroid.show("No se encontraron reportes.", ToastAndroid.SHORT);
+          setReportes([]);
         }
       } catch (error) {
         if (error.status === 500) {

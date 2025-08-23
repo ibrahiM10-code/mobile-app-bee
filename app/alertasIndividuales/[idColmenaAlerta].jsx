@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useLocalSearchParams } from "expo-router";
 import { useContext, useEffect, useState } from "react";
-import { FlatList, Text, View } from "react-native";
+import { FlatList, Text, ToastAndroid, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AlertaParticular from "../../components/AlertaParticular";
 import Navbar from "../../components/Navbar";
@@ -26,8 +26,9 @@ const SeccionAlertas = () => {
         if (response.data && response.status === 200) {
           console.log("Alertas encontradas:", response.data);
           setAlertasColmena(response.data);
-        } else if (response.status === 404) {
-          console.log("No hay alertas para mostrar.");
+        } else if (response.status === 204) {
+          ToastAndroid.show("No hay alertas para mostrar.", ToastAndroid.SHORT);
+          setAlertasColmena([]);
         }
       } catch (error) {
         if (error.status === 500) {
