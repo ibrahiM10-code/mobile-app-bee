@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const DatoRegistrado = ({ fechaRegistro, valorRegistrado }) => {
+const DatoRegistrado = ({ fechaRegistro, horaRegistro, valorRegistrado }) => {
   return (
     <SafeAreaView style={{}}>
       <View style={styles.registros}>
@@ -12,7 +12,7 @@ const DatoRegistrado = ({ fechaRegistro, valorRegistrado }) => {
             fontSize: 13,
           }}
         >
-          {fechaRegistro}
+          {fechaRegistro} {horaRegistro}
         </Text>
         <Text
           style={{

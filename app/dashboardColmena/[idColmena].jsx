@@ -181,6 +181,7 @@ const Dashboard = () => {
             estado={"Óptima"}
             metrica={"°"}
             icono={require("../../assets/icons/temperatura.png")}
+            colmenaId={datosSensores.colmena_id}
           />
           <SensorData
             nombreSensor={"Humedad"}
@@ -188,6 +189,7 @@ const Dashboard = () => {
             estado={"Óptima"}
             metrica={"%"}
             icono={require("../../assets/icons/humedad.png")}
+            colmenaId={datosSensores.colmena_id}
           />
 
           <SensorData
@@ -196,6 +198,7 @@ const Dashboard = () => {
             estado={"Óptimo"}
             metrica={"kg"}
             icono={require("../../assets/icons/balanza.png")}
+            colmenaId={datosSensores.colmena_id}
           />
           <SensorData
             nombreSensor={"Sonido"}
@@ -203,6 +206,7 @@ const Dashboard = () => {
             estado={"Reina presente"}
             metrica={"Hz"}
             icono={require("../../assets/icons/sonido.png")}
+            colmenaId={datosSensores.colmena_id}
           />
         </View>
         <Text

@@ -1,7 +1,14 @@
 import { Link } from "expo-router";
 import { Image, StyleSheet, Text, View } from "react-native";
 
-const SensorData = ({ nombreSensor, datoSensor, estado, icono, metrica }) => {
+const SensorData = ({
+  nombreSensor,
+  datoSensor,
+  estado,
+  icono,
+  metrica,
+  colmenaId,
+}) => {
   return (
     <View style={styles.container}>
       <View style={styles.topSection}>
@@ -25,7 +32,10 @@ const SensorData = ({ nombreSensor, datoSensor, estado, icono, metrica }) => {
 
       <View style={styles.middleSection}>
         <Link
-          href={`/sensor/${nombreSensor}`}
+          href={{
+            pathname: `/sensor/${nombreSensor}`,
+            params: { datoSensor, metrica, colmenaId },
+          }}
           style={
             nombreSensor === "Temperatura" || nombreSensor === "Humedad"
               ? {
