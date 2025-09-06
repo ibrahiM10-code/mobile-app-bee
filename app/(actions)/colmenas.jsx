@@ -38,9 +38,7 @@ const Colmenas = () => {
           setColmena([]);
         }
       } catch (error) {
-        if (error.response === 500) {
-          console.error(error);
-        }
+        console.error(error);
       }
     };
     getDatosColmenas();
@@ -66,10 +64,10 @@ const Colmenas = () => {
           renderItem={({ item }) => (
             <Colmena
               nombreColmena={item.nombre_colmena}
-              tempColmena={0}
-              humColmena={0}
-              pesoColmena={0}
-              sonidoColmena={0}
+              tempColmena={item.temperatura || 0}
+              humColmena={item.humedad || 0}
+              pesoColmena={item.peso || 0}
+              sonidoColmena={item.sonido || 0}
               estado={"Optimo"}
               imgColmena={
                 item.foto_colmena && typeof item.foto_colmena_url === "string"
