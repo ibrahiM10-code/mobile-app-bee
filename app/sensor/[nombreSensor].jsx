@@ -7,12 +7,19 @@ import DatoRegistrado from "../../components/DatoRegistrado";
 import TopBar from "../../components/TopBar";
 import AuthContext from "../../context/AuthProvider";
 import { API_URL } from "../../helpers/apiUrl";
+import evaluar_dato_sensor from "../../helpers/evaluar_dato_sensor";
 
 const DetallesSensor = () => {
   const [ultimosDatos, setUltimosDatos] = useState([]);
+  const [descripcionCorta, setDescripcionCorta] = useState("");
   const { config } = useContext(AuthContext);
-  const { nombreSensor, datoSensor, metrica, colmenaId } =
+  const { nombreSensor, datoSensor, metrica, colmenaId, estado } =
     useLocalSearchParams();
+  const sensor = {
+    nombre: nombreSensor.toLocaleLowerCase(),
+    valor: datoSensor,
+    estado,
+  };
 
   useEffect(() => {
     const getUltimosDatos = async () => {
@@ -28,6 +35,8 @@ const DetallesSensor = () => {
         }
       } catch (error) {
         console.error("Error: ", error);
+      } finally {
+        setDescripcionCorta(evaluar_dato_sensor(sensor));
       }
     };
     getUltimosDatos();
@@ -79,7 +88,7 @@ const DetallesSensor = () => {
               color: "#222A2A",
             }}
           >
-            La colmena está con una temperatura óptima e ideal para las abejas.
+            {descripcionCorta}
           </Text>
         </View>
       </View>
