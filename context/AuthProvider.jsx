@@ -5,9 +5,10 @@ import { createContext, useEffect, useState } from "react";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [userId, setUserId] = useState(null); // puedes guardar info del usuario
+  const [userId, setUserId] = useState(null);
   const [userToken, setUserToken] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [correo, setCorreo] = useState(null);
+  const [codigo, setCodigo] = useState(null);
 
   // Cargar token almacenado al inicio
   useEffect(() => {
@@ -46,8 +47,12 @@ export const AuthProvider = ({ children }) => {
   const value = {
     userToken,
     userId,
+    correo,
+    codigo,
     setUser,
     setToken,
+    setCorreo,
+    setCodigo,
     setUserToken,
     setUserId,
     config,

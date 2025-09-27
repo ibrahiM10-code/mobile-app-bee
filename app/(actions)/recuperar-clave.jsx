@@ -12,14 +12,14 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import AuthContext from "../context/AuthProvider";
-import { API_URL } from "../helpers/apiUrl";
+import { API_URL } from "../..//helpers/apiUrl";
+import AuthContext from "../../context/AuthProvider";
+import generaCodigo from "../../helpers/generaCodigo";
 
-const Inicio = () => {
-  const { setToken, setUser } = useContext(AuthContext);
+const RecuperarClave = () => {
+  const { setCorreo, setCodigo } = useContext(AuthContext);
   const [form, setForm] = useState({
     rut: "",
-    password: "",
   });
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -45,44 +45,40 @@ const Inicio = () => {
     return dv === dvCalc;
   };
 
-  const handleLogin = async () => {
+  const handleRut = async () => {
     // Validaciones
-    if (!form.rut) {
+    if (!form.rut.trim()) {
       setErrorMsg("El RUT es obligatorio");
       return;
     }
-    if (!validarRut(form.rut)) {
+    if (!validarRut(form.rut.trim())) {
       setErrorMsg("El RUT ingresado no es válido");
       return;
     }
-    if (!form.password) {
-      setErrorMsg("La contraseña es obligatoria");
-      return;
-    }
-    if (form.password.length < 6) {
-      setErrorMsg("La contraseña debe tener al menos 6 caracteres");
-      return;
-    }
+    console.log(form);
     try {
-      const response = await axios.post(`${API_URL}/auth/login`, form);
+      const codigo = generaCodigo();
+      const data = { rut: form.rut, codigo };
+      console.log(data);
+      const response = await axios.post(
+        `${API_URL}/auth/envia-correo-codigo`,
+        data
+      );
       if (response.status === 200) {
         setErrorMsg("");
-        ToastAndroid.show("Inicio de sesión exitoso", ToastAndroid.SHORT);
-        // alert("Inicio de sesión exitoso");
-        console.log(response.data);
-        setToken(response.data[0].token);
-        setUser(response.data[0].user);
-        router.push("/(actions)/colmenas");
+        ToastAndroid.show("Correo enviado exitosamente", ToastAndroid.SHORT);
+        setCorreo(response.data.email);
+        setCodigo(codigo);
+        router.push("/(actions)/ingresa-codigo");
       } else {
-        setErrorMsg("Error al iniciar sesión, por favor intente nuevamente.");
+        setErrorMsg("Error al enviar correo, por favor intente nuevamente.");
       }
     } catch (error) {
       if (error.status === 401) {
-        setErrorMsg(
-          "RUT o contraseña incorrectos. Por favor, inténtalo de nuevo."
-        );
+        setErrorMsg("RUT incorrecto. Por favor, inténtalo de nuevo.");
         return;
       } else {
+        console.error(error);
         setErrorMsg("Error al iniciar sesión.");
         return;
       }
@@ -94,7 +90,7 @@ const Inicio = () => {
         <View style={styles.form}>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Image
-              source={require("../assets/icons/colmena.png")}
+              source={require("../../assets/icons/colmena.png")}
               style={styles.logo}
               resizeMode="contain"
             />
@@ -109,6 +105,24 @@ const Inicio = () => {
               MonitorBeehive
             </Text>
           </View>
+          <View style={{ width: "90%", marginBottom: 16 }}>
+            <Text
+              style={{
+                color: "#E1D9C1",
+                fontFamily: "Manrope-SemiBold",
+                fontSize: 12,
+                textAlign: "center",
+                marginBottom: 8,
+              }}
+            >
+              Ingrese su RUT para recibir un correo con el código de
+              confirmación y poder resetear su contraseña.
+            </Text>
+          </View>
+          {/* <Text>
+            Ingrese su RUT para enviarle un correo con el código de confirmación
+            para resetear su contraseña.
+          </Text> */}
           <TextInput
             style={styles.input}
             placeholder="RUT (sin puntos con guion)"
@@ -120,57 +134,10 @@ const Inicio = () => {
             }}
             autoCapitalize="none"
           />
-          <TextInput
-            style={styles.input}
-            placeholder="Contraseña"
-            placeholderTextColor="#E1D9C1"
-            value={form.password}
-            onChangeText={(text) => {
-              handleChange("password", text);
-              setErrorMsg("");
-            }}
-            secureTextEntry
-          />
           {errorMsg ? <Text style={styles.errorText}>{errorMsg}</Text> : null}
-          {/* Recover password and create account links */}
-          <View
-            style={{
-              width: "100%",
-              marginBottom: 16,
-            }}
-          >
-            <TouchableOpacity
-              onPress={() => router.push("/recuperar-clave")}
-              style={{ alignSelf: "flex-start", marginBottom: 8 }}
-            >
-              <Text
-                style={{
-                  color: "#E1D9C1",
-                  textDecorationLine: "underline",
-                  fontSize: 14,
-                }}
-              >
-                ¿Olvidaste tu contraseña?
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => router.push("/registro")}
-              style={{ alignSelf: "flex-start" }}
-            >
-              <Text
-                style={{
-                  color: "#E1D9C1",
-                  textDecorationLine: "underline",
-                  fontSize: 14,
-                }}
-              >
-                Crear cuenta
-              </Text>
-            </TouchableOpacity>
-          </View>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
-              onPress={handleLogin}
+              onPress={handleRut}
               style={{
                 backgroundColor: "#E1D9C1",
                 padding: 12,
@@ -179,7 +146,7 @@ const Inicio = () => {
               }}
             >
               <Text style={{ color: "#222A2A", fontFamily: "Manrope-Bold" }}>
-                Iniciar Sesión
+                Enviar correo.
               </Text>
             </TouchableOpacity>
           </View>
@@ -199,7 +166,7 @@ const styles = StyleSheet.create({
   },
   form: {
     width: "100%",
-    maxWidth: 350,
+    maxWidth: 280,
     alignItems: "center",
     backgroundColor: "#222A2A",
     padding: 24,
@@ -237,4 +204,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Inicio;
+export default RecuperarClave;

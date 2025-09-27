@@ -128,7 +128,7 @@ const Register = () => {
       if (response.status === 201) {
         ToastAndroid.show("Registro exitoso", ToastAndroid.SHORT);
         // alert("Registro exitoso");
-        router.push("/login");
+        router.push("/");
       } else if (response.status === 400) {
         ToastAndroid.show(
           "Error al registrar, por favor intente nuevamente.",
