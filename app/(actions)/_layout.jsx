@@ -12,6 +12,7 @@ const AccionesLayout = () => {
       <Stack.Screen name="recuperar-clave" options={{ headerShown: false }} />
       <Stack.Screen name="ingresa-codigo" options={{ headerShown: false }} />
       <Stack.Screen name="nueva-clave" options={{ headerShown: false }} />
+      <Stack.Screen name="prueba" />
     </Stack>
   );
 };

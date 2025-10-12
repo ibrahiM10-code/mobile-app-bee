@@ -1,10 +1,12 @@
-export function formatFecha(fecha) {
-  if (!fecha) return "";
-  const [day, month, year] = fecha.split("-");
-  const meses = [
-    "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-    "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-  ];
-  const mesNombre = meses[parseInt(month, 10) - 1];
-  return `${day} de ${mesNombre}, ${year}`;
+export function formatFecha(dateStr) {
+  // If already in DD-MM-YYYY format, return as is
+  if (/^\d{2}-\d{2}-\d{4}$/.test(dateStr)) {
+    return dateStr;
+  }
+  const date = new Date(dateStr);
+  if (isNaN(date)) return dateStr; // Return original if invalid date
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const year = date.getUTCFullYear();
+  return `${day}-${month}-${year}`;
 }

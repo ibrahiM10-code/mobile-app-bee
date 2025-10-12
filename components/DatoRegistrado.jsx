@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { formatFecha } from "../helpers/formateaFecha";
 
 const DatoRegistrado = ({ fechaRegistro, horaRegistro, valorRegistrado }) => {
   return (
@@ -12,7 +13,7 @@ const DatoRegistrado = ({ fechaRegistro, horaRegistro, valorRegistrado }) => {
             fontSize: 13,
           }}
         >
-          {fechaRegistro} {horaRegistro}
+          {formatFecha(fechaRegistro)} {horaRegistro}
         </Text>
         <Text
           style={{

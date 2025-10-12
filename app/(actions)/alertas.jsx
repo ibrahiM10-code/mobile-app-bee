@@ -57,8 +57,8 @@ const SeccionAlertas = () => {
             return (
               <Alerta
                 fechaAlerta={formatFecha(item.fecha)}
-                tituloAlerta={item.titulo_alerta}
-                descAlerta={item.descripcion_alerta}
+                tituloAlerta={item.titulo}
+                descAlerta={item.descripcion}
                 imgAlerta={""}
                 tipoAlerta={item.tipo_alerta}
                 idColmena={item.colmena_id}

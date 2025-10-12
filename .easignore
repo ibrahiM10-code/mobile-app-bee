@@ -38,8 +38,3 @@ yarn-error.*
 
 # Hide helpers/apiUrl.js
 ./helpers/apiUrl.js
-
-# google-services credentials.
-google-services.json
-app-monitorbeehive-firebase-adminsdk-fbsvc-f1b375f8cb.json
-

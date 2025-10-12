@@ -179,7 +179,7 @@ const Inicio = () => {
               }}
             >
               <Text style={{ color: "#222A2A", fontFamily: "Manrope-Bold" }}>
-                Iniciar Sesión
+                Iniciar sesión
               </Text>
             </TouchableOpacity>
           </View>
