@@ -3,7 +3,6 @@ import { router } from "expo-router";
 import { useContext, useEffect, useState } from "react";
 import {
   FlatList,
-  StyleSheet,
   Text,
   ToastAndroid,
   TouchableOpacity,
@@ -115,7 +114,5 @@ const Colmenas = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default Colmenas;

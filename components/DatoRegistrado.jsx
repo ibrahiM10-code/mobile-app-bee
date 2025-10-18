@@ -1,40 +1,39 @@
 import { StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { formatFecha } from "../helpers/formateaFecha";
 
 const DatoRegistrado = ({ fechaRegistro, horaRegistro, valorRegistrado }) => {
   return (
-    <SafeAreaView style={{}}>
-      <View style={styles.registros}>
-        <Text
-          style={{
-            fontFamily: "Manrope-SemiBold",
-            color: "#222A2A",
-            fontSize: 13,
-          }}
-        >
-          {formatFecha(fechaRegistro)} {horaRegistro}
-        </Text>
-        <Text
-          style={{
-            fontFamily: "Manrope-SemiBold",
-            color: "#222A2A",
-            fontSize: 13,
-          }}
-        >
-          {valorRegistrado}
-        </Text>
-      </View>
-    </SafeAreaView>
+    <View style={styles.registros}>
+      <Text style={styles.textFechaHora}>
+        {formatFecha(fechaRegistro)} {horaRegistro}
+      </Text>
+      <Text style={styles.textValorRegistrado}>{valorRegistrado}</Text>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   registros: {
     flexDirection: "row",
-    justifyContent: "space-around",
-    marginVertical: -2,
-    right: 13,
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 5, // menos espacio vertical por fila
+    paddingHorizontal: 10, // padding interno
+    marginVertical: 3, // separación mínima entre filas
+    // backgroundColor: "red",
+    top: "14",
+  },
+  textFechaHora: {
+    fontFamily: "Manrope-SemiBold",
+    color: "#222A2A",
+    fontSize: 13,
+    left: "20",
+  },
+  textValorRegistrado: {
+    fontFamily: "Manrope-SemiBold",
+    color: "#222A2A",
+    fontSize: 13,
+    right: "50",
   },
 });
 

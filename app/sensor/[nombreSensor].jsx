@@ -102,7 +102,7 @@ const DetallesSensor = () => {
           marginHorizontal: 25,
         }}
       >
-        Últimas temperaturas registradas
+        Últimos datos registrados
       </Text>
       <View style={styles.tablaRegistros}>
         <View style={styles.enunciados}>
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     width: "80%",
     marginBottom: 10,
-    paddingBottom: 15,
+    paddingBottom: 20,
   },
   enunciados: {
     flexDirection: "row",
