@@ -1,43 +1,39 @@
-import * as FileSystem from "expo-file-system/legacy";
-import * as Sharing from "expo-sharing";
-  
-const openPDF = async (fileUri) => {
-    try {
-      const disponible = await Sharing.isAvailableAsync();
-      if (!disponible) {
-        alert("No hay apps disponibles para abrir el PDF.");
-        return;
-      }
-      await Sharing.shareAsync(fileUri, {
-        mimeType: "application/pdf",
-      });
-    } catch (error) {
-      console.error("Error sharing PDF:", error);
-      alert("No se pudo abrir el PDF.");
-    }
-};
+import { Alert, Platform } from "react-native";
+import FileViewer from "react-native-file-viewer";
+import RNFS from "react-native-fs";
 
 const descargarReporte = async (API_URL, colmenaId, config, userId) => {
-    try {
-      const url = `${API_URL}/reportes/obtener-reporte/${colmenaId}/${userId}`;
-      const fecha = new Date();
-      const fechaFormateada = fecha.toISOString().split("T")[0];
-      const fileUri =
-        FileSystem.documentDirectory +
-        `reporte_${colmenaId}_${fechaFormateada}.pdf`;
+  try {
+    const url = `${API_URL}/reportes/obtener-reporte/${colmenaId}/${userId}`;
+    const fecha = new Date();
+    const fechaFormateada = fecha.toISOString().split("T")[0];
+    const fileName = `reporte_${colmenaId}_${fechaFormateada}.pdf`;
 
-      const response = await FileSystem.downloadAsync(url, fileUri, {
-        headers: config.headers,
-      });
-      const fileInfo = await FileSystem.getInfoAsync(response.uri);
-      if (!fileInfo.exists || fileInfo.size === 0) {
-        alert("El archivo PDF no se descargó correctamente.");
-        return;
-      }
-      openPDF(response.uri);
-    } catch (error) {
-      console.error("Error al descargar reporte:", error);
+    // Use a path in the app's document directory
+    const filePath =
+      Platform.OS === "android"
+        ? `${RNFS.DownloadDirectoryPath}/${fileName}` // Save to Downloads on Android
+        : `${RNFS.DocumentDirectoryPath}/${fileName}`; // Save to app's docs on iOS
+
+    // Download the file
+    const options = {
+      fromUrl: url,
+      toFile: filePath,
+      headers: config.headers,
+    };
+    const downloadResult = await RNFS.downloadFile(options).promise;
+
+    if (downloadResult.statusCode !== 200) {
+      Alert.alert("Error", "No se pudo descargar el reporte.");
+      return;
     }
+
+    // Open the PDF with the default viewer
+    await FileViewer.open(filePath, { showOpenWithDialog: true });
+  } catch (error) {
+    console.error("Error downloading or opening report:", error);
+    Alert.alert("Error", "No se pudo descargar o abrir el reporte.");
+  }
 };
 
 export default descargarReporte;
