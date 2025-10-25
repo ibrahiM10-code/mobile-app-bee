@@ -1,4 +1,4 @@
-import * as FileSystem from "expo-file-system";
+import * as FileSystem from "expo-file-system/legacy";
 import * as Sharing from "expo-sharing";
   
 const openPDF = async (fileUri) => {
@@ -36,7 +36,7 @@ const descargarReporte = async (API_URL, colmenaId, config, userId) => {
       }
       openPDF(response.uri);
     } catch (error) {
-      console.error("Error downloading report:", error);
+      console.error("Error al descargar reporte:", error);
     }
 };
 
