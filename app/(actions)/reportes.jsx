@@ -1,8 +1,6 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import axios from "axios";
-import * as FileSystem from "expo-file-system/legacy";
-import * as Sharing from "expo-sharing";
 import { useContext, useEffect, useState } from "react";
 import {
   Platform,
@@ -18,6 +16,7 @@ import TarjetaReporte from "../../components/TarjetaReporte";
 import TopBar from "../../components/TopBar";
 import AuthContext from "../../context/AuthProvider";
 import { API_URL } from "../../helpers/apiUrl";
+import descargarReporte from "../../helpers/descargarReporte";
 import { formatFecha } from "../../helpers/formateaFecha";
 
 const Reportes = () => {
@@ -55,22 +54,6 @@ const Reportes = () => {
     value: reporte.colmena_id,
   }));
 
-  const openPDF = async (fileUri) => {
-    try {
-      const disponible = await Sharing.isAvailableAsync();
-      if (!disponible) {
-        alert("No hay apps disponibles para abrir el PDF.");
-        return;
-      }
-      await Sharing.shareAsync(fileUri, {
-        mimeType: "application/pdf",
-      });
-    } catch (error) {
-      console.error("Error sharing PDF:", error);
-      alert("No se pudo abrir el PDF.");
-    }
-  };
-
   const buscarReporte = async (colmenaId, fechaElegida) => {
     const fechaFiltro = `${fechaElegida
       .getDate()
@@ -96,30 +79,6 @@ const Reportes = () => {
       if (error.status === 500) {
         console.error("Error al buscar el reporte:", error);
       }
-    }
-  };
-
-  const descargarReporte = async (colmenaId, config, fechaFiltro) => {
-    try {
-      const url = `${API_URL}/reportes/descargar-reporte/${colmenaId}/${fechaFiltro}`;
-      console.log(url);
-      const fecha = new Date();
-      const fechaFormateada = fecha.toISOString().split("T")[0];
-      const fileUri =
-        FileSystem.documentDirectory +
-        `reporte_${colmenaId}_${fechaFormateada}.pdf`;
-
-      const response = await FileSystem.downloadAsync(url, fileUri, {
-        headers: config.headers,
-      });
-      const fileInfo = await FileSystem.getInfoAsync(response.uri);
-      if (!fileInfo.exists || fileInfo.size === 0) {
-        alert("El archivo PDF no se descargó correctamente.");
-        return;
-      }
-      openPDF(response.uri);
-    } catch (error) {
-      console.error("Error downloading report:", error);
     }
   };
 
@@ -218,8 +177,11 @@ const Reportes = () => {
             }
             onPress={() =>
               descargarReporte(
+                API_URL,
                 reporte.colmena_id,
                 config,
+                userId,
+                true,
                 reporte.fecha_descarga
               )
             }

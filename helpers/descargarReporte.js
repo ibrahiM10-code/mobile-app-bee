@@ -2,9 +2,16 @@ import { Alert, Platform } from "react-native";
 import FileViewer from "react-native-file-viewer";
 import RNFS from "react-native-fs";
 
-const descargarReporte = async (API_URL, colmenaId, config, userId) => {
+const descargarReporte = async (API_URL, colmenaId, config, userId, filtro, fechaFiltro) => {
+  let url = ""
+  console.log(userId);
   try {
-    const url = `${API_URL}/reportes/obtener-reporte/${colmenaId}/${userId}`;
+    if (filtro) {
+      url = `${API_URL}/reportes/descargar-reporte/${colmenaId}/${fechaFiltro}`;
+    } else {
+      url = `${API_URL}/reportes/obtener-reporte/${colmenaId}/${userId}`;
+    }
+    console.log(url);
     const fecha = new Date();
     const fechaFormateada = fecha.toISOString().split("T")[0];
     const fileName = `reporte_${colmenaId}_${fechaFormateada}.pdf`;

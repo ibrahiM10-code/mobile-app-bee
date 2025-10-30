@@ -255,7 +255,7 @@ const Dashboard = () => {
                   borderRadius: 5,
                 }}
                 onPress={() =>
-                  descargarReporte(API_URL, idColmena, config, userId)
+                  descargarReporte(API_URL, idColmena, config, userId, false)
                 }
               >
                 <Text style={{ fontFamily: "Manrope-Bold", color: "#E1D9C1" }}>
