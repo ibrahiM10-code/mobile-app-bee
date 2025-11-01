@@ -182,6 +182,7 @@ const Reportes = () => {
                 reporte.colmena_id,
                 config,
                 userId,
+                "",
                 true,
                 reporte.fecha_descarga
               )

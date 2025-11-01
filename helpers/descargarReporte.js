@@ -4,12 +4,17 @@ import RNFS from "react-native-fs";
 
 const descargarReporte = async (API_URL, colmenaId, config, userId, observaciones, filtro, fechaFiltro) => {
   let url = ""
-  const observacioneQuery = observaciones.length > 0 ? `?observaciones=${observaciones.join(',')}`: '';
   try {
-    if (filtro) {
-      url = `${API_URL}/reportes/descargar-reporte/${colmenaId}/${fechaFiltro}${observacioneQuery}`;
-    } else {
-      url = `${API_URL}/reportes/obtener-reporte/${colmenaId}/${userId}${observacioneQuery}`;
+    if (observaciones !== "" && filtro) {
+      const observacionesQuery = observaciones.length > 0 ? `?observaciones=${observaciones.join(',')}`: '';
+      url = `${API_URL}/reportes/descargar-reporte/${colmenaId}/${fechaFiltro}${observacionesQuery}`;
+    } else if (observaciones !== "" && !filtro) {
+      const observacionesQuery = observaciones.length > 0 ? `?observaciones=${observaciones.join(',')}`: '';
+      url = `${API_URL}/reportes/obtener-reporte/${colmenaId}/${userId}${observacionesQuery}`;
+    } else if (observaciones === "" && filtro) {
+      url = `${API_URL}/reportes/descargar-reporte/${colmenaId}/${fechaFiltro}`;
+    } else if (observaciones === "" && !filtro) {
+      url = `${API_URL}/reportes/obtener-reporte/${colmenaId}/${userId}`;
     }
     console.log(url);
     const fecha = new Date();
