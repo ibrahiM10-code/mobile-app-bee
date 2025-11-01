@@ -49,6 +49,7 @@ const Reportes = () => {
     cargaReportes();
   }, [userId, config]);
 
+  // Hacer que muestre el nombre sola una vez.
   const options = reportes.map((reporte) => ({
     label: reporte.nombre_colmena,
     value: reporte.colmena_id,

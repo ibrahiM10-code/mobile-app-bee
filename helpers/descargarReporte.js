@@ -2,14 +2,14 @@ import { Alert, Platform } from "react-native";
 import FileViewer from "react-native-file-viewer";
 import RNFS from "react-native-fs";
 
-const descargarReporte = async (API_URL, colmenaId, config, userId, filtro, fechaFiltro) => {
+const descargarReporte = async (API_URL, colmenaId, config, userId, observaciones, filtro, fechaFiltro) => {
   let url = ""
-  console.log(userId);
+  const observacioneQuery = observaciones.length > 0 ? `?observaciones=${observaciones.join(',')}`: '';
   try {
     if (filtro) {
-      url = `${API_URL}/reportes/descargar-reporte/${colmenaId}/${fechaFiltro}`;
+      url = `${API_URL}/reportes/descargar-reporte/${colmenaId}/${fechaFiltro}${observacioneQuery}`;
     } else {
-      url = `${API_URL}/reportes/obtener-reporte/${colmenaId}/${userId}`;
+      url = `${API_URL}/reportes/obtener-reporte/${colmenaId}/${userId}${observacioneQuery}`;
     }
     console.log(url);
     const fecha = new Date();
