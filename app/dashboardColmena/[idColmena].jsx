@@ -10,12 +10,12 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import ModalObservaciones from "../../components/ModalObservaciones";
 import Navbar from "../../components/Navbar";
 import SensorData from "../../components/SensorData";
 import TopBar from "../../components/TopBar";
 import AuthContext from "../../context/AuthProvider";
 import { API_URL } from "../../helpers/apiUrl";
-import descargarReporte from "../../helpers/descargarReporte";
 
 const Dashboard = () => {
   const [datosSensores, setDatosSensores] = useState([]);
@@ -23,6 +23,13 @@ const Dashboard = () => {
   const [isAlerta, setIsAlerta] = useState(false);
   const { config, userId, userToken } = useContext(AuthContext);
   const { idColmena } = useLocalSearchParams();
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleDescargaReporte = (selectedOptions) => {
+    // descargarReporte(API_URL, idColmena, config, userId, false, selectedOptions);
+    console.log(selectedOptions);
+    setModalVisible(false);
+  };
 
   useEffect(() => {
     const getDatosSensores = async () => {
@@ -254,15 +261,18 @@ const Dashboard = () => {
                   paddingHorizontal: 10,
                   borderRadius: 5,
                 }}
-                onPress={() =>
-                  descargarReporte(API_URL, idColmena, config, userId)
-                }
+                onPress={() => setModalVisible(true)}
               >
                 <Text style={{ fontFamily: "Manrope-Bold", color: "#E1D9C1" }}>
                   Descargar reporte
                 </Text>
               </TouchableOpacity>
             )}
+            <ModalObservaciones
+              visible={modalVisible}
+              onClose={() => setModalVisible(false)}
+              onConfirm={handleDescargaReporte}
+            />
           </View>
         </View>
       </ScrollView>
