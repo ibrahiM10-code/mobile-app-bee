@@ -9,6 +9,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Cargando from "../../components/Cargando";
 import Colmena from "../../components/Colmena";
 import Navbar from "../../components/Navbar";
 import TopBar from "../../components/TopBar";
@@ -18,6 +19,7 @@ import { API_URL } from "../../helpers/apiUrl";
 const Colmenas = () => {
   const { userId, config, userToken } = useContext(AuthContext);
   const [colmena, setColmena] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!userId || !userToken) return;
@@ -29,6 +31,7 @@ const Colmenas = () => {
         );
         if (response.status === 200) {
           setColmena(response.data);
+          console.log(response.data);
         } else if (response.status === 204) {
           ToastAndroid.show(
             "No hay colmenas para mostrar.",
@@ -38,6 +41,8 @@ const Colmenas = () => {
         }
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
     getDatosColmenas();
@@ -58,57 +63,57 @@ const Colmenas = () => {
         Mis colmenas
       </Text>
       <View style={{ width: "100%", height: "70%" }}>
-        <FlatList
-          data={colmena}
-          renderItem={({ item }) => (
-            <Colmena
-              nombreColmena={item.nombre_colmena}
-              tempColmena={item.temperatura || 0}
-              humColmena={item.humedad || 0}
-              pesoColmena={item.peso || 0}
-              sonidoColmena={item.sonido || 0}
-              estado={"Optimo"}
-              imgColmena={
-                item.foto_colmena && typeof item.foto_colmena_url === "string"
-                  ? { uri: `${item.foto_colmena_url}` }
-                  : require("../../assets/images/colmena.jpg")
-              }
-              nombreApiario={item.nombre_apiario}
-              idColmena={item.colmena_id}
-              key={item._id}
-            />
-          )}
-          keyExtractor={(item) => item._id}
-          contentContainerStyle={{
-            paddingHorizontal: 16,
-          }}
-          overScrollMode="never"
-          showsVerticalScrollIndicator={false}
-          ListFooterComponent={
-            <TouchableOpacity
-              style={{
-                backgroundColor: "#222A2A",
-                paddingHorizontal: 10,
-                paddingVertical: 10,
-                borderRadius: 5,
-                marginVertical: 40,
-              }}
-              onPress={() => {
-                router.push("/prueba");
-              }}
-            >
-              <Text
+        {loading ? (
+          <Cargando contenidoCargando={"colmenas"} />
+        ) : (
+          <FlatList
+            data={colmena}
+            renderItem={({ item }) => (
+              <Colmena
+                nombreColmena={item.nombre_colmena}
+                tempColmena={item.temperatura || 0}
+                humColmena={item.humedad || 0}
+                pesoColmena={item.peso || 0}
+                sonidoColmena={item.sonido || 0}
+                estado={"Optimo"}
+                imgColmena={item.foto_colmena_url || null}
+                nombreApiario={item.nombre_apiario}
+                idColmena={item.colmena_id}
+                key={item._id}
+              />
+            )}
+            keyExtractor={(item) => item._id}
+            contentContainerStyle={{
+              paddingHorizontal: 16,
+            }}
+            overScrollMode="never"
+            showsVerticalScrollIndicator={false}
+            ListFooterComponent={
+              <TouchableOpacity
                 style={{
-                  color: "#E1D9C1",
-                  textAlign: "center",
-                  fontFamily: "Manrope-Bold",
+                  backgroundColor: "#222A2A",
+                  paddingHorizontal: 10,
+                  paddingVertical: 10,
+                  borderRadius: 5,
+                  marginVertical: 40,
+                }}
+                onPress={() => {
+                  router.push("/prueba");
                 }}
               >
-                Agregar Colmena
-              </Text>
-            </TouchableOpacity>
-          }
-        />
+                <Text
+                  style={{
+                    color: "#E1D9C1",
+                    textAlign: "center",
+                    fontFamily: "Manrope-Bold",
+                  }}
+                >
+                  Agregar Colmena
+                </Text>
+              </TouchableOpacity>
+            }
+          />
+        )}
       </View>
       <Navbar />
     </SafeAreaView>

@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { FlatList, Text, ToastAndroid } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AlertaParticular from "../../components/AlertaParticular";
+import Cargando from "../../components/Cargando";
 import Navbar from "../../components/Navbar";
 import TopBar from "../../components/TopBar";
 import AuthContext from "../../context/AuthProvider";
@@ -14,6 +15,7 @@ const SeccionAlertas = () => {
   const { config, userId, userToken } = useContext(AuthContext);
   const { idColmenaAlerta } = useLocalSearchParams();
   const [alertasColmena, setAlertasColmena] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getAlertasColmena = async () => {
@@ -34,6 +36,8 @@ const SeccionAlertas = () => {
         if (error.status === 500) {
           console.error("Error fetching alert data:", error);
         }
+      } finally {
+        setLoading(false);
       }
     };
     getAlertasColmena();
@@ -64,33 +68,35 @@ const SeccionAlertas = () => {
       >
         Últimas alertas
       </Text>
-      {/* <View style={{ height: "100%" }}> */}
-      <FlatList
-        data={alertasColmena.filter(
-          (item) => item.estado_alerta !== "resuelta"
-        )}
-        renderItem={({ item }) => (
-          <AlertaParticular
-            fechaAlerta={formatFecha(item.fecha)}
-            tituloAlerta={item.titulo}
-            descAlerta={item.descripcion}
-            //imgAlerta={item.imgAlerta}
-            idColmena={item.colmena_id}
-            idAlerta={item._id}
-            tipoAlerta={item.tipo_alerta}
-            estadoAlerta={item.estado_alerta}
-            actualizarEstadoAlerta={actualizarEstadoAlerta}
-            key={item._id}
-          />
-        )}
-        keyExtractor={(item) => item._id}
-        contentContainerStyle={{
-          paddingHorizontal: 16,
-          paddingBottom: 100,
-        }}
-        showsVerticalScrollIndicator={false}
-      />
-      {/* </View> */}
+      {loading ? (
+        <Cargando contenidoCargando={"alertas"} />
+      ) : (
+        <FlatList
+          data={alertasColmena.filter(
+            (item) => item.estado_alerta !== "resuelta"
+          )}
+          renderItem={({ item }) => (
+            <AlertaParticular
+              fechaAlerta={formatFecha(item.fecha)}
+              tituloAlerta={item.titulo}
+              descAlerta={item.descripcion}
+              //imgAlerta={item.imgAlerta}
+              idColmena={item.colmena_id}
+              idAlerta={item._id}
+              tipoAlerta={item.tipo_alerta}
+              estadoAlerta={item.estado_alerta}
+              actualizarEstadoAlerta={actualizarEstadoAlerta}
+              key={item._id}
+            />
+          )}
+          keyExtractor={(item) => item._id}
+          contentContainerStyle={{
+            paddingHorizontal: 16,
+            paddingBottom: 100,
+          }}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
       <Navbar />
     </SafeAreaView>
   );

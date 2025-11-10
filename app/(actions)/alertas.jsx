@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { FlatList, Text, ToastAndroid, View } from "react-native";
+import { FlatList, Text, ToastAndroid } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Alerta from "../../components/Alerta";
+import Cargando from "../../components/Cargando";
 import Navbar from "../../components/Navbar";
 import TopBar from "../../components/TopBar";
 import AuthContext from "../../context/AuthProvider";
@@ -12,6 +13,7 @@ import { formatFecha } from "../../helpers/formateaFecha";
 const SeccionAlertas = () => {
   const { config, userId, userToken } = useContext(AuthContext);
   const [alertas, setAlertas] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getAlertas = async () => {
@@ -30,6 +32,8 @@ const SeccionAlertas = () => {
         }
       } catch (error) {
         console.error("Error fetching alert data:", error);
+      } finally {
+        setLoading(false);
       }
     };
     getAlertas();
@@ -49,7 +53,9 @@ const SeccionAlertas = () => {
       >
         Últimas alertas
       </Text>
-      <View style={{ height: "100%" }}>
+      {loading ? (
+        <Cargando contenidoCargando={"alertas"} />
+      ) : (
         <FlatList
           data={alertas}
           renderItem={({ item }) => {
@@ -69,10 +75,10 @@ const SeccionAlertas = () => {
           keyExtractor={(item) => item._id}
           contentContainerStyle={{
             paddingHorizontal: 16,
-            bottom: 20,
+            paddingBottom: 100,
           }}
         />
-      </View>
+      )}
       <Navbar />
     </SafeAreaView>
   );

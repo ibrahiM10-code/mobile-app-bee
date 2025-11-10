@@ -23,7 +23,7 @@ const Dashboard = () => {
   const [descEstado, setDescEstado] = useState([]);
   const [isAlerta, setIsAlerta] = useState(false);
   const { config, userId, userToken } = useContext(AuthContext);
-  const { idColmena } = useLocalSearchParams();
+  const { idColmena, imgColmena } = useLocalSearchParams();
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleDescargaReporte = (selectedOptions) => {
@@ -191,7 +191,7 @@ const Dashboard = () => {
         >
           <SensorData
             nombreSensor={"Temperatura"}
-            datoSensor={datosSensores.temperatura || 0}
+            datoSensor={datosSensores.temperatura || "..."}
             estado={"Óptima"}
             metrica={"°"}
             icono={require("../../assets/icons/temperatura.png")}
@@ -199,7 +199,7 @@ const Dashboard = () => {
           />
           <SensorData
             nombreSensor={"Humedad"}
-            datoSensor={datosSensores.humedad || 0}
+            datoSensor={datosSensores.humedad || "..."}
             estado={"Óptima"}
             metrica={"%"}
             icono={require("../../assets/icons/humedad.png")}
@@ -208,7 +208,7 @@ const Dashboard = () => {
 
           <SensorData
             nombreSensor={"Peso"}
-            datoSensor={datosSensores.peso || 0}
+            datoSensor={datosSensores.peso || "..."}
             estado={"Óptimo"}
             metrica={"kg"}
             icono={require("../../assets/icons/balanza.png")}
@@ -237,7 +237,7 @@ const Dashboard = () => {
         <View style={styles.sobreColmena}>
           <View>
             <Image
-              source={require("../../assets/images/colmena.jpg")}
+              source={{ uri: imgColmena }}
               style={{
                 width: 137,
                 height: 105,

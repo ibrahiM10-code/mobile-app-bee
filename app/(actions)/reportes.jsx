@@ -11,12 +11,13 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Cargando from "../../components/Cargando";
 import Navbar from "../../components/Navbar";
 import TarjetaReporte from "../../components/TarjetaReporte";
 import TopBar from "../../components/TopBar";
 import AuthContext from "../../context/AuthProvider";
 import { API_URL } from "../../helpers/apiUrl";
-// import descargarReporte from "../../helpers/descargarReporte";
+import descargarReporte from "../../helpers/descargarReporte";
 import { formatFecha } from "../../helpers/formateaFecha";
 
 const Reportes = () => {
@@ -25,6 +26,7 @@ const Reportes = () => {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedOption, setSelectedOption] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const cargaReportes = async () => {
@@ -44,6 +46,8 @@ const Reportes = () => {
         if (error.status === 500) {
           console.error("Error del servidor. Intente nuevamente mas tarde.");
         }
+      } finally {
+        setLoading(false);
       }
     };
     cargaReportes();
@@ -173,33 +177,36 @@ const Reportes = () => {
           </Text>
         </TouchableOpacity>
       </View>
-      <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 80 }}>
-        {reportes.map((reporte, idx) => (
-          <TarjetaReporte
-            key={idx}
-            titulo={`Reporte del ${formatFecha(reporte.fecha_descarga)}`}
-            nombreColmena={reporte.nombre_colmena}
-            nombreApiario={reporte.nombre_apiario}
-            fotoColmena={
-              reporte.foto_colmena
-                ? { uri: `${API_URL}/static/${reporte.foto_colmena}` }
-                : require("../../assets/images/colmena.jpg")
-            }
-            onPress={() => console.log(newOptions)}
-            // onPress={() =>
-            //   descargarReporte(
-            //     API_URL,
-            //     reporte.colmena_id,
-            //     config,
-            //     userId,
-            //     "",
-            //     true,
-            //     reporte.fecha_descarga
-            //   )
-            // }
-          />
-        ))}
-      </ScrollView>
+      {loading ? (
+        <Cargando contenidoCargando={"reportes"} />
+      ) : (
+        <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 80 }}>
+          {reportes.map((reporte, idx) => (
+            <TarjetaReporte
+              key={idx}
+              titulo={`Reporte del ${formatFecha(reporte.fecha_descarga)}`}
+              nombreColmena={reporte.nombre_colmena}
+              nombreApiario={reporte.nombre_apiario}
+              fotoColmena={
+                reporte.foto_colmena
+                  ? { uri: `${API_URL}/static/${reporte.foto_colmena}` }
+                  : require("../../assets/images/colmena.jpg")
+              }
+              onPress={() =>
+                descargarReporte(
+                  API_URL,
+                  reporte.colmena_id,
+                  config,
+                  userId,
+                  "",
+                  true,
+                  reporte.fecha_descarga
+                )
+              }
+            />
+          ))}
+        </ScrollView>
+      )}
       <Navbar />
     </SafeAreaView>
   );

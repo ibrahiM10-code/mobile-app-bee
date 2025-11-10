@@ -1,7 +1,6 @@
-import { router } from "expo-router";
+import { Link } from "expo-router";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
 const Colmena = ({
   nombreColmena,
   tempColmena,
@@ -15,12 +14,9 @@ const Colmena = ({
 }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={() => router.push(`/dashboardColmena/${idColmena}`)}
-      >
+      <TouchableOpacity activeOpacity={0.8}>
         <View style={styles.colmenaContainer}>
-          <Image source={imgColmena} style={styles.imagenColmena} />
+          <Image source={{ uri: imgColmena }} style={styles.imagenColmena} />
           <View style={{ flex: 1 }}>
             <Text
               style={{
@@ -31,19 +27,29 @@ const Colmena = ({
             >
               Estado: {estado}.
             </Text>
-            <Text
-              style={{
-                fontFamily: "Manrope-Bold",
-                fontSize: 12,
-                alignSelf: "flex-start",
-                bottom: 10,
-                color: "#222A2A",
+            <Link
+              href={{
+                pathname: `/dashboardColmena/${idColmena}`,
+                params: { imgColmena },
               }}
             >
-              {nombreColmena} - {nombreApiario}
-            </Text>
+              <Text
+                style={{
+                  fontFamily: "Manrope-Bold",
+                  fontSize: 12,
+                  alignSelf: "flex-start",
+                  bottom: 10,
+                  color: "#222A2A",
+                }}
+              >
+                {nombreColmena} - {nombreApiario}
+              </Text>
+            </Link>
             <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
             >
               <View style={{ alignSelf: "center" }}>
                 <Image
