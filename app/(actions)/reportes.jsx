@@ -16,7 +16,7 @@ import TarjetaReporte from "../../components/TarjetaReporte";
 import TopBar from "../../components/TopBar";
 import AuthContext from "../../context/AuthProvider";
 import { API_URL } from "../../helpers/apiUrl";
-import descargarReporte from "../../helpers/descargarReporte";
+// import descargarReporte from "../../helpers/descargarReporte";
 import { formatFecha } from "../../helpers/formateaFecha";
 
 const Reportes = () => {
@@ -54,6 +54,15 @@ const Reportes = () => {
     label: reporte.nombre_colmena,
     value: reporte.colmena_id,
   }));
+
+  const newOptions = options.reduce((acc, current) => {
+    const x = acc.find((item) => item.label === current.label);
+    if (!x) {
+      return acc.concat([current]);
+    } else {
+      return acc;
+    }
+  }, []);
 
   const buscarReporte = async (colmenaId, fechaElegida) => {
     const fechaFiltro = `${fechaElegida
@@ -136,7 +145,7 @@ const Reportes = () => {
               style={{ width: "100%", bottom: 5 }}
             >
               <Picker.Item label="Selecciona una opción..." value="" />
-              {options.map((opt) => (
+              {newOptions.map((opt) => (
                 <Picker.Item
                   key={opt.value}
                   label={opt.label}
@@ -176,17 +185,18 @@ const Reportes = () => {
                 ? { uri: `${API_URL}/static/${reporte.foto_colmena}` }
                 : require("../../assets/images/colmena.jpg")
             }
-            onPress={() =>
-              descargarReporte(
-                API_URL,
-                reporte.colmena_id,
-                config,
-                userId,
-                "",
-                true,
-                reporte.fecha_descarga
-              )
-            }
+            onPress={() => console.log(newOptions)}
+            // onPress={() =>
+            //   descargarReporte(
+            //     API_URL,
+            //     reporte.colmena_id,
+            //     config,
+            //     userId,
+            //     "",
+            //     true,
+            //     reporte.fecha_descarga
+            //   )
+            // }
           />
         ))}
       </ScrollView>
