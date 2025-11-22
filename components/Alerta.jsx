@@ -1,6 +1,7 @@
 import { router } from "expo-router";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { formatFecha } from "../helpers/formateaFecha";
 
 const Alerta = ({
   fechaAlerta,
@@ -21,7 +22,7 @@ const Alerta = ({
             color: "#222A2A",
           }}
         >
-          {fechaAlerta}
+          {formatFecha(fechaAlerta)}
         </Text>
         <View style={styles.alertaContainer}>
           <Image

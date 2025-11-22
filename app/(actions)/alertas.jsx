@@ -8,7 +8,6 @@ import Navbar from "../../components/Navbar";
 import TopBar from "../../components/TopBar";
 import AuthContext from "../../context/AuthProvider";
 import { API_URL } from "../../helpers/apiUrl";
-import { formatFecha } from "../../helpers/formateaFecha";
 
 const SeccionAlertas = () => {
   const { config, userId, userToken } = useContext(AuthContext);
@@ -62,7 +61,7 @@ const SeccionAlertas = () => {
             if (item.estado_alerta === "resuelta") return null;
             return (
               <Alerta
-                fechaAlerta={formatFecha(item.fecha)}
+                fechaAlerta={item.fecha}
                 tituloAlerta={item.titulo}
                 descAlerta={item.descripcion}
                 imgAlerta={""}

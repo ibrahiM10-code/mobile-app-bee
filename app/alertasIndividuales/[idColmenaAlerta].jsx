@@ -9,7 +9,6 @@ import Navbar from "../../components/Navbar";
 import TopBar from "../../components/TopBar";
 import AuthContext from "../../context/AuthProvider";
 import { API_URL } from "../../helpers/apiUrl";
-import { formatFecha } from "../../helpers/formateaFecha";
 
 const SeccionAlertas = () => {
   const { config, userId, userToken } = useContext(AuthContext);
@@ -53,6 +52,7 @@ const SeccionAlertas = () => {
     );
   };
 
+  // alertasColmena.map((alerta) => console.log("fecha:", alerta.fecha));
   return (
     <SafeAreaView style={{ backgroundColor: "#E1D9C1", flex: 1 }}>
       <TopBar />
@@ -77,7 +77,7 @@ const SeccionAlertas = () => {
           )}
           renderItem={({ item }) => (
             <AlertaParticular
-              fechaAlerta={formatFecha(item.fecha)}
+              fechaAlerta={item.fecha}
               tituloAlerta={item.titulo}
               descAlerta={item.descripcion}
               //imgAlerta={item.imgAlerta}

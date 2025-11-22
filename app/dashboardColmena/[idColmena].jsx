@@ -39,6 +39,7 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
+    let idIntervalo;
     const getDatosSensores = async () => {
       try {
         if (!userId || !userToken) return;
@@ -47,7 +48,6 @@ const Dashboard = () => {
           config
         );
         if (response.data && response.status === 200) {
-          console.log("Datos de sensores:", response.data);
           setDatosSensores(response.data[0]);
         } else if (response.status === 404) {
           console.log("Este apicultor no tiene colmenas registradas.");
@@ -57,9 +57,14 @@ const Dashboard = () => {
         if (error.status === 500) {
           console.error("Error fetching sensor data:", error);
         }
+      } finally {
+        console.log("HELLO!");
       }
     };
     getDatosSensores();
+
+    idIntervalo = setInterval(getDatosSensores, 5000);
+    return () => clearInterval(idIntervalo);
   }, [config, idColmena]);
 
   useEffect(() => {
