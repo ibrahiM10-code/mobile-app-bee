@@ -1,4 +1,4 @@
-import { Alert, Platform } from "react-native";
+import { Alert } from "react-native";
 import FileViewer from "react-native-file-viewer";
 import RNFS from "react-native-fs";
 
@@ -6,10 +6,10 @@ const descargarReporte = async (API_URL, colmenaId, config, userId, observacione
   let url = ""
   try {
     if (observaciones !== "" && filtro) {
-      const observacionesQuery = observaciones.length > 0 ? `?observaciones=${observaciones.join(',')}`: '';
+      const observacionesQuery = observaciones.length > 0 ? `?observaciones=${observaciones.join(',')}` : '';
       url = `${API_URL}/reportes/descargar-reporte/${colmenaId}/${fechaFiltro}${observacionesQuery}`;
     } else if (observaciones !== "" && !filtro) {
-      const observacionesQuery = observaciones.length > 0 ? `?observaciones=${observaciones.join(',')}`: '';
+      const observacionesQuery = observaciones.length > 0 ? `?observaciones=${observaciones.join(',')}` : '';
       url = `${API_URL}/reportes/obtener-reporte/${colmenaId}/${userId}${observacionesQuery}`;
     } else if (observaciones === "" && filtro) {
       url = `${API_URL}/reportes/descargar-reporte/${colmenaId}/${fechaFiltro}`;
@@ -22,10 +22,7 @@ const descargarReporte = async (API_URL, colmenaId, config, userId, observacione
     const fileName = `reporte_${colmenaId}_${fechaFormateada}.pdf`;
 
     // Use a path in the app's document directory
-    const filePath =
-      Platform.OS === "android"
-        ? `${RNFS.DownloadDirectoryPath}/${fileName}` // Save to Downloads on Android
-        : `${RNFS.DocumentDirectoryPath}/${fileName}`; // Save to app's docs on iOS
+    const filePath = `${RNFS.DocumentDirectoryPath}/${fileName}`;
 
     // Download the file
     const options = {
