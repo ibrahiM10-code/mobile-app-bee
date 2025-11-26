@@ -98,7 +98,7 @@ const Colmenas = () => {
                   marginVertical: 40,
                 }}
                 onPress={() => {
-                  router.push("/prueba");
+                  router.push("/agregar-colmena");
                 }}
               >
                 <Text
