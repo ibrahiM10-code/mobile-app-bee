@@ -2,21 +2,21 @@ import { descripcionesCortas } from "./descripciones_cortas.js";
 
 export default function evaluar_dato_sensor(sensor = {}) {
     let evaluacion = "";
-    const {temperatura, humedad, peso, sonido} = descripcionesCortas
+    const { temperatura, humedad, peso, sonido } = descripcionesCortas
     if (sensor.nombre === "temperatura") {
-        if (sensor.valor >= 33 && sensor.valor < 35) {
+        if (sensor.valor >= 32 && sensor.valor < 37) {
             evaluacion = temperatura[2]["temperaturaOptima"];
-        } else if (sensor.valor < 33) {
+        } else if (sensor.valor < 32) {
             evaluacion = temperatura[0]["temperaturaBaja"];
-        } else if (sensor.valor > 35) {
+        } else if (sensor.valor > 36) {
             evaluacion = temperatura[1]["temperaturaAlta"];
         } else {
             evaluacion = "error";
         }
     } else if (sensor.nombre === "humedad") {
-        if (sensor.valor >= 40 && sensor.valor < 70) {
+        if (sensor.valor >= 50 && sensor.valor < 71) {
             evaluacion = humedad[2]["humedadOptima"];
-        } else if (sensor.valor < 40) {
+        } else if (sensor.valor < 50) {
             evaluacion = humedad[0]["humedadBaja"];
         } else if (sensor.valor > 70) {
             evaluacion = humedad[1]["humedadAlta"]
@@ -24,9 +24,9 @@ export default function evaluar_dato_sensor(sensor = {}) {
             evaluacion = "error"
         }
     } else if (sensor.nombre === "peso") {
-        if (sensor.valor <= 0.3) {
+        if (sensor.valor <= 25) {
             evaluacion = peso[0]["pesoBajo"];
-        } else if (sensor.valor > 0.3){
+        } else if (sensor.valor > 40) {
             evaluacion = peso[1]["pesoOptimo"];
         } else {
             evaluacion = "error"
