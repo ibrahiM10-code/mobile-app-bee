@@ -52,22 +52,39 @@ const SeccionAlertas = () => {
     );
   };
 
-  // alertasColmena.map((alerta) => console.log("fecha:", alerta.fecha));
+  const getCantidadPendientes = alertasColmena.filter((alerta) => alerta.estado_alerta === "pendiente");
+  
   return (
     <SafeAreaView style={{ backgroundColor: "#E1D9C1", flex: 1 }}>
       <TopBar />
-
-      <Text
-        style={{
-          fontFamily: "Manrope-Bold",
-          fontSize: 28,
-          marginTop: 30,
-          marginHorizontal: 20,
-          color: "#222A2A",
-        }}
-      >
-        Últimas alertas
-      </Text>
+      {
+        getCantidadPendientes.length > 0 ? 
+        (
+          <Text
+            style={{
+              fontFamily: "Manrope-Bold",
+              fontSize: 28,
+              marginTop: 30,
+              marginHorizontal: 20,
+              color: "#222A2A",
+            }}
+          >
+            Últimas alertas
+          </Text>
+        ) : (
+            <Text
+            style={{
+              fontFamily: "Manrope-Bold",
+              fontSize: 22,
+              marginTop: 30,
+              marginHorizontal: 20,
+              color: "#222A2A",
+            }}
+          >
+            No hay alertas en este momento.
+          </Text>
+        )
+      }
       {loading ? (
         <Cargando contenidoCargando={"alertas"} />
       ) : (
