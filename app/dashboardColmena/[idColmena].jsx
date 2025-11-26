@@ -38,34 +38,34 @@ const Dashboard = () => {
     setModalVisible(false);
   };
 
-  useEffect(() => {
-    let idIntervalo;
-    const getDatosSensores = async () => {
-      try {
-        if (!userId || !userToken) return;
-        const response = await axios.get(
-          `${API_URL}/sensores/obtener-sensores/${idColmena}`,
-          config
-        );
-        if (response.data && response.status === 200) {
-          setDatosSensores(response.data[0]);
-        } else if (response.status === 404) {
-          console.log("Este apicultor no tiene colmenas registradas.");
-          setDatosSensores([]);
+  useFocusEffect(
+    useCallback(() => {
+      let idIntervalo;
+      const getDatosSensores = async () => {
+        try {
+          if (!userId || !userToken) return;
+          const response = await axios.get(
+            `${API_URL}/sensores/obtener-sensores/${idColmena}`,
+            config
+          );
+          if (response.data && response.status === 200) {
+            setDatosSensores(response.data[0]);
+          } else if (response.status === 404) {
+            console.log("Este apicultor no tiene colmenas registradas.");
+            setDatosSensores([]);
+          }
+        } catch (error) {
+          if (error.status === 500) {
+            console.error("Error fetching sensor data:", error);
+          }
         }
-      } catch (error) {
-        if (error.status === 500) {
-          console.error("Error fetching sensor data:", error);
-        }
-      } finally {
-        console.log("HELLO!");
-      }
-    };
-    getDatosSensores();
+      };
+      getDatosSensores();
+      idIntervalo = setInterval(getDatosSensores, 5000);
 
-    idIntervalo = setInterval(getDatosSensores, 5000);
-    return () => clearInterval(idIntervalo);
-  }, [config, idColmena]);
+      return () => clearInterval(idIntervalo);
+    }, [config, idColmena, userId, userToken])
+  );
 
   useEffect(() => {
     const getDescripcionColmena = async () => {
@@ -256,7 +256,7 @@ const Dashboard = () => {
               style={{
                 fontFamily: "Manrope-Regular",
                 fontSize: 10,
-                width: descEstado.descripcion ? "15%" : "70%",
+                width: descEstado.descripcion ? "12%" : "70%",
               }}
             >
               {descEstado.descripcion ||
